@@ -4,23 +4,32 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Yajra\DataTables\DataTables;
 
 class PendudukController extends Controller
 {
     public function __construct()
     {
+        $this->menu_code = 'penduduk';
+        parent::__construct();
         $this->middleware('auth.check');
     }
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $response =  Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/penduduk', []);
-        $response_body = json_decode($response->getBody());
-        $data = $response_body->data->data;
+        if ($request->ajax()) {
 
-        return view('penduduk.index', compact('data'));
+            $response = Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/penduduk', ['all' => 1]);
+            $response_body = json_decode($response->getBody(), true);
+
+            return DataTables::of($response_body['data'])
+                ->addIndexColumn()
+                ->make(true);
+        }
+
+        return view('penduduk.index');
     }
 
     /**
@@ -28,9 +37,9 @@ class PendudukController extends Controller
      */
     public function create()
     {
-        $response =  Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/kelompok', []);
-        $response_body = json_decode($response->getBody());
-        $kelompoks = $response_body->data->data;
+        $response =  Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/penduduk/create-edit', []);
+        $response_body = json_decode($response->getBody()); 
+        $kelompoks = $response_body->data->kelompok;
 
         return view('penduduk.create', compact('kelompoks'));
     }
@@ -43,11 +52,10 @@ class PendudukController extends Controller
         $response = Http::withToken(session('jwt_token'))->post(env('API_URL') . 'api/penduduk/store', $request->all());
 
         if ($response->created()) {
-
-            return redirect()->route('kelompok.index')->with('success', "Penduduk Berhasil Dibuat");
+            return redirect()->route('penduduk.index')->with('success', "Data berhasil disimpan.");
         }
 
-        return redirect()->back();
+        return redirect()->back()->with('error', "Internal server error.")->withInput();
     }
 
     /**
@@ -87,10 +95,10 @@ class PendudukController extends Controller
 
         if ($response->ok()) {
 
-            return redirect()->route('penduduk.index')->with('success', "Penduduk Berhasil Dirubah");
+            return redirect()->route('penduduk.index')->with('success', "Data berhasil diperbarui.");
         }
 
-        return redirect()->route('penduduk.index')->with('failed', "Penduduk Gagal Dirubah");
+        return redirect()->back()->with('error', "Internal server error.")->withInput();
     }
 
     /**
@@ -101,10 +109,9 @@ class PendudukController extends Controller
         $response = Http::withToken(session('jwt_token'))->delete(env('API_URL') . 'api/penduduk/delete/' . $id, []);
 
         if ($response->ok()) {
-
-            return redirect()->route('penduduk.index')->with('success', "Penduduk Berhasil Dihapus");
+            return redirect()->back()->with('success', "Data berhasil dihapus.");
         }
 
-        return redirect()->route('penduduk.index')->with('failed', "Penduduk Gagal Dihapus");
+        return redirect()->back()->with('error', "Internal server error.")->withInput();
     }
 }

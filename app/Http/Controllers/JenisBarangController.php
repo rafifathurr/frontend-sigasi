@@ -4,23 +4,32 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Yajra\DataTables\Facades\DataTables;
 
 class JenisBarangController extends Controller
 {
     public function __construct()
     {
+        $this->menu_code = 'jenis-barang';
+        parent::__construct();
         $this->middleware('auth.check');
     }
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $response = Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/jenis-barang', []);
-        $response_body = json_decode($response->getBody());
-        $data = $response_body->data->data;
+        if ($request->ajax()) {
 
-        return view('jenis_barang.index', compact('data'));
+            $response = Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/jenis-barang', ['all' => 1]);
+            $response_body = json_decode($response->getBody(), true);
+
+            return DataTables::of($response_body['data'])
+                ->addIndexColumn()
+                ->make(true);
+        }
+
+        return view('jenis_barang.index');
     }
 
     /**
@@ -39,24 +48,10 @@ class JenisBarangController extends Controller
         $response = Http::withToken(session('jwt_token'))->post(env('API_URL') . 'api/jenis-barang/store', $request->all());
 
         if ($response->created()) {
-
-            return redirect()->route('jenis-barang.index');
-        } else {
-
-            return redirect()->back();
+            return redirect()->route('jenis-barang.index')->with('success', "Data berhasil disimpan.");
         }
-    }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        $response = Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/jenis-barang/show/' . $id, []);
-        $response_body = json_decode($response->getBody());
-        $data = $response_body->data;
-
-        return view('jenis_barang.view', compact('data'));
+        return redirect()->back()->with('error', "Internal server error.")->withInput();
     }
 
     /**
@@ -79,12 +74,10 @@ class JenisBarangController extends Controller
         $response  = Http::withToken(session('jwt_token'))->put(env('API_URL') . 'api/jenis-barang/update/' . $id, $request->all());
 
         if ($response->ok()) {
-
-            return redirect()->route('jenis-barang.index');
-        } else {
-
-            return redirect()->back();
+            return redirect()->route('jenis-barang.index')->with('success', "Data berhasil diperbarui.");
         }
+
+        return redirect()->back()->with('error', "Internal server error.")->withInput();
     }
 
     /**
@@ -95,10 +88,9 @@ class JenisBarangController extends Controller
         $response =  Http::withToken(session('jwt_token'))->delete(env('API_URL') . 'api/jenis-barang/delete/' . $id, []);
 
         if ($response->ok()) {
-
-            return redirect()->route('jenis-barang.index')->with('success', "Data Berhasil Dihapus");
+            return redirect()->back()->with('success', "Data berhasil dihapus.");
         }
 
-        return redirect()->route('jenis-barang.index')->with('failed', 'Gagal Hapus Data');
+        return redirect()->back()->with('error', "Internal server error.")->withInput();
     }
 }

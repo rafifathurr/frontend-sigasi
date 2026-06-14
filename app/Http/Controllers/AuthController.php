@@ -12,6 +12,7 @@ class AuthController extends Controller
     {
         return view('auth.login');
     }
+
     public function auth(Request $request)
     {
         $response = Http::post(env('API_URL') . 'api/authenticate', [
@@ -19,26 +20,38 @@ class AuthController extends Controller
             'password' => $request->password,
         ]);
 
-        // dd($response->body());
-
-        $response_body = json_decode($response->getBody());
+        $response_body = json_decode($response->getBody(), true);
 
         if ($response->ok()) {
 
-            session(['jwt_token' => $response_body->data->token]);
-            session(['name' => $response_body->data->user->name]);
+            session(['jwt_token' => $response_body['data']['token']]);
+            session(['user_id' => $response_body['data']['user']['id']]);
+            session(['name' => $response_body['data']['user']['name']]);
+            session(['role' => $response_body['data']['role']]);
+            session(['menus' => $response_body['data']['menus']]);
+            session(['posko' => null]);
 
-            return redirect()->route('view-dashboard');
+            if (session('role') == 'posko') {
+                $response = Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/posko', ['all' => 1, 'user' => session('user_id')]);
+                $response_body = json_decode($response->getBody());
+
+                if (!is_null($response_body->data) && !empty($response_body->data)) {
+                    session(['posko' =>  $response_body->data[0]->IDPosko]);
+                }
+            }
+
+            return redirect('/');
         }
 
-        return redirect()->route('view-login')->withErrors($response->json()['message'])->withInput();
+        return redirect()->route('login')->with('error', $response->json()['message'] ?? 'Internal server error.')->withInput();
     }
 
     public function logout()
     {
 
-        session()->forget('jwt_token');
+        session()->invalidate();
+        session()->regenerateToken();
 
-        return redirect()->route('view-login');
+        return redirect()->route('login');
     }
 }

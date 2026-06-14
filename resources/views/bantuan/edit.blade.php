@@ -1,23 +1,6 @@
 @extends('layout.main')
 @section('content')
-    <div class="app-content-header">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-6">
-                    <h3 class="mb-0">Bantuan</h3>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-end">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">
-                            Fixed Layout
-                        </li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="app-content">
+    <div class="app-content mt-4">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
@@ -31,10 +14,10 @@
                                 @csrf
                                 <div class="row">
                                     <div class="mb-3 col-6">
-                                        <label for="exampleInputEmail1" class="form-label">
+                                        <label for="donatur" class="form-label">
                                             Donatur
                                         </label>
-                                        <select class="form-select" id="validationCustom04" name="donatur" required>
+                                        <select class="form-select" name="donatur" required>
                                             <option selected disabled value="">Pilih Donatur</option>
                                             @foreach ($donaturs as $item)
                                                 <option {{ $bantuan->IDDonatur == $item->IDDonatur ? 'selected' : '' }}
@@ -43,11 +26,11 @@
                                         </select>
                                     </div>
                                     <div class="mb-3 col-6">
-                                        <label for="exampleInputEmail1" class="form-label">
+                                        <label for="jenis_barang" class="form-label">
                                             Barang
                                         </label>
                                         <div class="input-group">
-                                            <select class="form-select" id="barang" name="jenis_barang">
+                                            <select class="form-select" id="barang" name="barang">
                                                 <option selected disabled value="">Pilih Barang</option>
                                                 @foreach ($barangs as $item)
                                                     <option value="{{ $item->IDBarang }}">{{ $item->NamaBarang }}</option>
@@ -61,7 +44,7 @@
                                         </div>
                                     </div>
                                     <div class="mb-3 col-12">
-                                        <label for="exampleInputEmail1" class="form-label">
+                                        <label for="tanggal_bantuan" class="form-label">
                                             Tanggal Bantuan
                                         </label>
                                         <input type="date"

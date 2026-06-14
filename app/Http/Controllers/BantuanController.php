@@ -9,6 +9,8 @@ class BantuanController extends Controller
 {
     public function __construct()
     {
+        $this->menu_code = 'bantuan';
+        parent::__construct();
         $this->middleware('auth.check');
     }
 
@@ -48,11 +50,10 @@ class BantuanController extends Controller
         $response = Http::withToken(session('jwt_token'))->post(env('API_URL') . 'api/bantuan/store', $request->all());
 
         if ($response->created()) {
-
             return redirect()->route('bantuan.index')->with('success', 'Bantuan Berhasil Di-input');
         }
 
-        return redirect()->back();
+        return redirect()->back()->with('error', "Internal server error.")->withInput();
     }
 
     /**
@@ -99,7 +100,7 @@ class BantuanController extends Controller
             return redirect()->route('bantuan.index')->with('success', 'Bantuan Berhasil Di-Update');
         }
 
-        return redirect()->with('failed', 'Bantuan Gagal Di-Update');
+        return redirect()->back()->with('error', "Internal server error.")->withInput();
     }
 
     /**
@@ -114,6 +115,6 @@ class BantuanController extends Controller
             return redirect()->route('bantuan.index')->with('success', 'Bantuan Berhasil Di-Hapus');
         }
 
-        return redirect()->with('failed', 'Bantuan Gagal Di-Hapus');
+        return redirect()->back()->with('error', "Internal server error.")->withInput();
     }
 }

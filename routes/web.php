@@ -4,9 +4,16 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BantuanController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DonaturController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JenisBarangController;
+use App\Http\Controllers\KebutuhanController;
 use App\Http\Controllers\KelompokController;
+use App\Http\Controllers\LogActivityController;
 use App\Http\Controllers\PendudukController;
+use App\Http\Controllers\PengungsiController;
+use App\Http\Controllers\PoskoController;
+use App\Http\Controllers\UserManagementController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,31 +27,49 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('auth.login');
-});
-
-Route::get('/login', [AuthController::class, 'login'])->name('view-login');
-Route::post('/auth', [AuthController::class, 'auth'])->name('function-login');
-Route::post('/logout', [AuthController::class, 'logout'])->name('function-logout');
+Route::get('login', [AuthController::class, 'login'])->name('login');
+Route::post('auth', [AuthController::class, 'auth'])->name('auth');
+Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 
 Route::group(['middleware' => 'auth.check'], function () {
 
+    // Home route
+    Route::get('/', [HomeController::class, 'index'])->name('home');
+
     // Dashboard route
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('view-dashboard');
+    Route::get('dashboard', [DashboardController::class, 'index']);
 
-    // Jenis Barang routes
-    Route::resource('jenis-barang', JenisBarangController::class);
+    // Log Activity route
+    Route::get('log-activity', [LogActivityController::class, 'index'])->name('log-activity.index');
 
-    //Barang
-    Route::resource('barang',  BarangController::class);
+    //Bantuan routes
+    Route::resource('bantuan', BantuanController::class);
 
-    //kelompok
-    Route::resource('kelompok', KelompokController::class);
+    //Kebutuhan routes
+    Route::resource('kebutuhan', KebutuhanController::class);
 
-    //Penduduk
+    //Donatur routes
+    Route::resource('donatur', DonaturController::class);
+
+    //Pengungsi routes
+    Route::resource('pengungsi', PengungsiController::class);
+
+    //Penduduk routes
     Route::resource('penduduk', PendudukController::class);
 
-    Route::resource('bantuan', BantuanController::class);
+    //Kelompok routes
+    Route::resource('kelompok', KelompokController::class);
+
+    //Barang routes
+    Route::resource('barang', BarangController::class);
+
+    //Jenis Barang routes
+    Route::resource('jenis-barang', JenisBarangController::class);
+
+    //Posko routes
+    Route::resource('posko', PoskoController::class);
+
+    //User Management routes
+    Route::resource('user-management', UserManagementController::class);
 });

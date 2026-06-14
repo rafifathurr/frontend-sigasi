@@ -1,53 +1,33 @@
-<aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark"> <!--begin::Sidebar Brand-->
-    <div class="sidebar-brand"> <!--begin::Brand Link-->
-        <a href="./index.html" class="brand-link">
-            <!--begin::Brand Image-->
-            {{-- <img src="../../dist/assets/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image opacity-75 shadow"> --}}
-            <!--end::Brand Image--> <!--begin::Brand Text-->
-            <span class="brand-text fw-light">AdminLTE 4</span> <!--end::Brand Text-->
+<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme"
+    style="transition: opacity 0.5s ease, height 0.5s ease, padding 0.5s ease;">
+    <div class="app-brand demo mb-2">
+        <a href="<?= url('/') ?>" class="app-brand-link">
+            <span class="app-brand-logo demo">
+                <img src="<?= asset('/assets/images/sigasi-logo.png') ?>" style="width:20%;" alt="">
+            </span>
         </a>
-        <!--end::Brand Link-->
+        <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
+            <i class="bx bx-chevron-left bx-sm align-middle"></i>
+        </a>
     </div>
-    <!--end::Sidebar Brand--> <!--begin::Sidebar Wrapper-->
-    <div class="sidebar-wrapper">
-        <nav class="mt-2">
-            <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
-                <li class="nav-item">
-                    <a href="#" class="nav-link"> <i class="nav-icon bi bi-speedometer"></i>
-                        <p>Dash Board</p>
+
+    <div class="menu-inner-shadow"></div>
+
+    <ul class="menu-inner py-1">
+        <!-- Dashboard -->
+        <li class="menu-item <?= $menu_code == 'home' ? 'active' : '' ?>">
+            <a href="<?= url('/') ?>" class="menu-link">
+                <div data-i18n="Analytics">Beranda</div>
+            </a>
+        </li>
+        @foreach ($menus as $menu)
+            @if (str_contains(strtolower($menu['Menu']), 'index'))
+                <li class="menu-item <?= $menu_code == $menu['MenuCode'] ? 'active' : '' ?>">
+                    <a href="<?= url($menu['Url']) ?>" class="menu-link">
+                        <div data-i18n="Analytics">{{ str_replace('Index', '', $menu['Menu']) }}</div>
                     </a>
                 </li>
-                <li class="nav-header">Barang</li>
-                <li class="nav-item">
-                    <a href="{{ route('jenis-barang.index') }}" class="nav-link"> <i
-                            class="nav-icon bi bi-inboxes-fill"></i>
-                        <p>Jenis Barang</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('barang.index') }}" class="nav-link"> <i class="nav-icon bi bi-inbox-fill"></i>
-                        <p>Barang</p>
-                    </a>
-                </li>
-                <li class="nav-header">Penduduk</li>
-                <li class="nav-item">
-                    <a href="{{ route('kelompok.index') }}" class="nav-link"> <i class="nav-icon bi bi-people-fill"></i>
-                        <p>Kelompok</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('penduduk.index') }}" class="nav-link"> <i class="nav-icon bi bi-person-fill"></i>
-                        <p>Penduduk</p>
-                    </a>
-                </li>
-                <li class="nav-header">Bantuan</li>
-                <li class="nav-item">
-                    <a href="{{ route('bantuan.index') }}" class="nav-link"> <i
-                            class="nav-icon bi bi-box2-heart-fill"></i>
-                        <p>Bantuan</p>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </div> <!--end::Sidebar Wrapper-->
-</aside> <!--end::Sidebar--> <!--begin::App Main-->
+            @endif
+        @endforeach
+    </ul>
+</aside>

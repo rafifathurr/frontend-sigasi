@@ -4,23 +4,32 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Yajra\DataTables\DataTables;
 
 class BarangController extends Controller
 {
     public function __construct()
     {
+        $this->menu_code = 'barang';
+        parent::__construct();
         $this->middleware('auth.check');
     }
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $response =  Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/barang', []);
-        $response_body = json_decode($response->getBody());
-        $data = $response_body->data->data;
+        if ($request->ajax()) {
 
-        return view('barang.index', compact('data'));
+            $response = Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/barang', ['all' => 1]);
+            $response_body = json_decode($response->getBody(), true);
+
+            return DataTables::of($response_body['data'])
+                ->addIndexColumn()
+                ->make(true);
+        }
+
+        return view('barang.index');
     }
 
     /**
@@ -43,11 +52,10 @@ class BarangController extends Controller
         $response = Http::withToken(session('jwt_token'))->post(env('API_URL') . 'api/barang/store', $request->all());
 
         if ($response->created()) {
-
-            return redirect()->route('barang.index');
+            return redirect()->route('barang.index')->with('success', "Data berhasil disimpan.");
         }
 
-        return redirect()->back();
+        return redirect()->back()->with('error', "Internal server error.")->withInput();
     }
 
     /**
@@ -86,11 +94,10 @@ class BarangController extends Controller
         $response = Http::withToken(session('jwt_token'))->put(env('API_URL') . 'api/barang/update/' . $id, $request->all());
 
         if ($response->ok()) {
-
-            return redirect()->route('barang.index');
+            return redirect()->route('barang.index')->with('success', "Data berhasil diperbarui.");
         }
 
-        return redirect()->back();
+        return redirect()->back()->with('error', "Internal server error.")->withInput();
     }
 
     /**
@@ -101,10 +108,9 @@ class BarangController extends Controller
         $response =  Http::withToken(session('jwt_token'))->delete(env('API_URL') . 'api/barang/delete/' . $id, []);
 
         if ($response->ok()) {
-
-            return redirect()->route('barang.index')->with('success', "Data Berhasil Dihapus");
+            return redirect()->back()->with('success', "Data berhasil dihapus.");
         }
 
-        return redirect()->route('barang.index')->with('failed', 'Gagal Update Data');
+        return redirect()->back()->with('error', "Internal server error.")->withInput();
     }
 }

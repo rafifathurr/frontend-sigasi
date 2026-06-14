@@ -4,23 +4,32 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Yajra\DataTables\DataTables;
 
 class KelompokController extends Controller
 {
     public function __construct()
     {
+        $this->menu_code = 'kelompok';
+        parent::__construct();
         $this->middleware('auth.check');
     }
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $response =  Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/kelompok', []);
-        $response_body = json_decode($response->getBody());
-        $data = $response_body->data->data;
+        if ($request->ajax()) {
 
-        return view('kelompok.index', compact('data'));
+            $response = Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/kelompok', ['all' => 1]);
+            $response_body = json_decode($response->getBody(), true);
+
+            return DataTables::of($response_body['data'])
+                ->addIndexColumn()
+                ->make(true);
+        }
+
+        return view('kelompok.index');
     }
 
     /**
@@ -39,11 +48,10 @@ class KelompokController extends Controller
         $response = Http::withToken(session('jwt_token'))->post(env('API_URL') . 'api/kelompok/store', $request->all());
 
         if ($response->created()) {
-
-            return redirect()->route('kelompok.index')->with('success', "Data Berhasil Dibuat");
+            return redirect()->route('kelompok.index')->with('success', "Data berhasil disimpan.");
         }
 
-        return redirect()->back();
+        return redirect()->back()->with('error', "Internal server error.")->withInput();
     }
 
     /**
@@ -78,11 +86,10 @@ class KelompokController extends Controller
         $response =  Http::withToken(session('jwt_token'))->put(env('API_URL') . 'api/kelompok/update/' . $id, $request->all());
 
         if ($response->ok()) {
-
-            return redirect()->route('kelompok.index')->with('success', "Data Berhasil Dirubah");
+            return redirect()->route('kelompok.index')->with('success', "Data berhasil diperbarui.");
         }
 
-        return redirect()->route('kelompok.index')->with('failed', 'Gagal Update Data');
+        return redirect()->back()->with('error', "Internal server error.")->withInput();
     }
 
     /**
@@ -93,10 +100,9 @@ class KelompokController extends Controller
         $response =  Http::withToken(session('jwt_token'))->delete(env('API_URL') . 'api/kelompok/delete/' . $id, []);
 
         if ($response->ok()) {
-
-            return redirect()->route('kelompok.index')->with('success', "Data Berhasil Dihapus");
+            return redirect()->back()->with('success', "Data berhasil dihapus.");
         }
 
-        return redirect()->route('kelompok.index')->with('failed', 'Gagal Update Data');
+        return redirect()->back()->with('error', "Internal server error.")->withInput();
     }
 }

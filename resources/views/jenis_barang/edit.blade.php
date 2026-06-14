@@ -1,47 +1,31 @@
 @extends('layout.main')
 @section('content')
-    <div class="app-content-header">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-6">
-                    <h3 class="mb-0">Jenis Barang</h3>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-end">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">
-                            Fixed Layout
-                        </li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="app-content">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header d-flex justify-content-between">
-                            <h3 class="card-title">Edit Jenis Barang</h3>
-                        </div>
-                        <div class="card-body">
-                            <form action="{{ route('jenis-barang.update', $data->IDJenisBarang) }}" method="POST">
-                                @method('PUT')
-                                @csrf
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">
-                                        Nama Jenis Barang
-                                    </label>
-                                    <input value="{{ $data->JenisBarang }}" type="text" class="form-control"
-                                        name="jenis_barang">
-                                </div>
-                                <button type="submit" class="btn btn-warning ms-auto">Update</button>
-                            </form>
-                        </div>
+    <div class="container-fluid px-0">
+        <h4 class="fw-bold py-3"><span class="text-muted fw-light">Jenis Barang /</span> Edit Jenis Barang</h4>
+        <div class="card shadow-sm border-0 w-100">
+            <form action="{{ route('jenis-barang.update', $data->IDJenisBarang) }}" method="POST" id="form-submit">
+                @method('PUT')
+                @csrf
+                <div class="card-body">
+                    <div class="form-group mb-3">
+                        <label for="jenis_barang    " class="form-label">
+                            Nama Jenis Barang<span class="ms-1 text-danger">*</span>
+                        </label>
+                        <input type="text" class="form-control" name="jenis_barang" value="{{ $data->JenisBarang }}" required>
                     </div>
                 </div>
-            </div>
+                <div class="card-footer d-flex flex-row justify-content-end align-items-center gap-2 pb-3 pt-0">
+                    <a class="btn btn-secondary text-white" href="{{ route('jenis-barang.index') }}">
+                        <i class="fa fa-arrow-left me-2"></i>
+                        Kembali
+                    </a>
+                    <button type="button" onclick="formSubmit('form-submit')"
+                        class="btn btn-primary d-flex justify-content-center align-items-center">
+                        <i class="fa fa-check me-2"></i>
+                        Simpan
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 @endsection
