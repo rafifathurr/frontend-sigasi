@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Yajra\DataTables\DataTables;
 
 class BantuanController extends Controller
 {
@@ -17,13 +18,22 @@ class BantuanController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $response =  Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/bantuan', []);
-        $response_body = json_decode($response->getBody());
-        $data = $response_body->data->data;
+        if ($request->ajax()) {
 
-        return view('bantuan.index', compact('data'));
+            $response = Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/bantuan', ['all' => 1]);
+            $response_body = json_decode($response->getBody(), true);
+
+            return DataTables::of($response_body['data'])
+                ->addIndexColumn()
+                 ->addColumn('TanggalBantuan', function ($data) {
+                    return date('d F Y H:i:s', strtotime($data['TanggalBantuan']));
+                })
+                ->make(true);
+        }
+
+        return view('bantuan.index');
     }
 
     /**

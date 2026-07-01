@@ -12,77 +12,84 @@
                         </div>
                     </div>
                 @endif
-                <table class="table table-bordered datatable">
-                    <thead>
-                        <tr>
-                            <th style="width: 10px">No</th>
-                            <th>Donatur</th>
-                            <th>Tangal Bantuan</th>
-                            <th style="width: 10%">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($data as $item)
-                            <tr class="align-middle">
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->donatur->NamaPerusahaan }}</td>
-                                <td>{{ $item->TanggalBantuan }}</td>
-                                <td>
-                                    <div class="btn-group dropstart">
-                                        <button type="button" class="btn btn-sm btn-secondary dropdown-toggle"
-                                            data-bs-toggle="dropdown" aria-expanded="false">
-                                            Action
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item"
-                                                    href="{{ route('bantuan.show', $item->IDBantuan) }}">
-                                                    View
-                                                </a>
-                                            </li>
-                                            <li><a class="dropdown-item"
-                                                    href="{{ route('bantuan.edit', $item->IDBantuan) }}">Edit</a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item" data-bs-toggle="modal"
-                                                    data-bs-target="#delete-{{ $item->IDBantuan }}" href="#">
-                                                    Delete
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
-                                <div class="modal fade" id="delete-{{ $item->IDBantuan }}" tabindex="-1"
-                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Warning</h1>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                Apakah anda yakin untuk hapus data?
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">Tidak</button>
-                                                <form action="{{ route('bantuan.destroy', $item->IDBantuan) }}"
-                                                    method="post">
-                                                    @method('DELETE')
-                                                    @csrf
-                                                    <button type="sumbit" class="btn btn-danger">Delete</button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="table-bantuan">
+                        <thead>
+                            <tr>
+                                <th width="5%">No</th>
+                                <th>Donatur</th>
+                                <th>Tangal Bantuan</th>
+                                <th width="10%">Aksi</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                    </table>
+                </div>
             </div> <!-- /.card-body -->
         </div> <!-- /.card -->
     </div> <!--end::Container-->
     @push('javascript')
+        <script>
+            $('#table-bantuan').DataTable({
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{ route('bantuan.index') }}",
+                    error: function(xhr, error, code) {
+                        errorAlert(xhr.statusText);
+                    }
+                },
+                columns: [{
+                        data: null,
+                        render: function(data, type, row, meta) {
+                            return meta.settings._iDisplayStart + meta.row + 1;
+                        }
+                    },
+                    {
+                        data: 'donatur.NamaPerusahaan'
+                    },
+                    {
+                        data: 'TanggalBantuan'
+                    },
+                    {
+                        data: 'IDBantuan',
+                        orderable: false,
+                        searchable: false,
+                        className: 'dt-center',
+                        render: function(data, type, row) {
+                            let baseUrl = `{{ url('bantuan') }}`;
+                            return `
+                    <div class="btn-group">
+                        <button type="button"
+                            class="btn btn-icon text-primary rounded-pill dropdown-toggle hide-arrow"
+                            data-bs-toggle="dropdown">
+                            <i class="bx bx-dots-vertical-rounded"></i>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item"
+                                   href="${baseUrl}/${data}">
+                                    <i class="fa fa-eye me-2"></i>Detail
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item"
+                                   href="${baseUrl}/${data}/edit">
+                                    <i class="fa fa-edit me-2"></i>Edit
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item text-danger" onclick="destroy('${baseUrl}/${data}')">
+                                    <i class="fa fa-trash me-2"></i>Delete
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                `;
+                        }
+                    }
+                ]
+            });
+        </script>
     @endpush
 @endsection

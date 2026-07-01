@@ -22,12 +22,12 @@
                             <input type="number" class="form-control" name="nomor_kontak" value={{ $data->NomorKontak }}
                                 required>
                         </div>
-                        <div class="form-group mb-3 col-12">
-                            <label for="alamat" class="form-label">
-                                Alamat Lengkap<span class="ms-1 text-danger">*</span>
-                            </label>
-                            <textarea class="form-control" name="alamat" rows="3" required>{{ $data->Alamat }}</textarea>
-                        </div>
+                    </div>
+                    <div class="form-group mb-3 col-12">
+                        <label for="alamat" class="form-label">
+                            Alamat Lengkap<span class="ms-1 text-danger">*</span>
+                        </label>
+                        <textarea class="form-control" name="alamat" rows="3" required>{{ $data->Alamat }}</textarea>
                     </div>
                 </div>
                 <div class="card-footer d-flex flex-row justify-content-end align-items-center gap-2 pb-3 pt-0">

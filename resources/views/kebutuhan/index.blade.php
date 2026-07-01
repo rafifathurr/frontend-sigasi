@@ -1,24 +1,27 @@
 @extends('layout.main')
 @section('content')
     <div class="container-fluid px-0">
-        <h4 class="fw-bold py-3"><span class="text-muted fw-light">Beranda /</span> Daftar Pengungsi</h4>
+        <h4 class="fw-bold py-3"><span class="text-muted fw-light">Beranda /</span> Daftar Kebutuhan</h4>
         <div class="card shadow-sm border-0 w-100">
             <div class="card-body">
                 <div class="row pt-2 pb-4 align-items-end">
                     <div class="col-lg-3">
-                        <a href="{{ route('pengungsi.create') }}" class="btn btn-primary ms-auto"><i
+                        <a href="{{ route('kebutuhan.create') }}" class="btn btn-primary ms-auto"><i
                                 class="fa fa-plus me-2"></i>Tambah</a>
                     </div>
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-bordered" id="table-pengungsi">
+                    <table class="table table-bordered" id="table-kebutuhan">
                         <thead>
                             <tr>
                                 <th width="5%">No</th>
-                                <th>Penduduk</th>
-                                <th>Kelompok</th>
                                 <th>Posko</th>
-                                <th>Kondisi Khusus</th>
+                                <th>Jenis Barang</th>
+                                <th>Barang</th>
+                                <th>Jumlah Dibutuhkan</th>
+                                <th>Jumlah Diterima</th>
+                                <th>Diperbarui Oleh</th>
+                                <th>Tanggal dan Waktu Diperbarui</th>
                                 <th width="10%">Aksi</th>
                             </tr>
                         </thead>
@@ -29,12 +32,12 @@
     </div>
     @push('javascript')
         <script>
-            $('#table-pengungsi').DataTable({
+            $('#table-kebutuhan').DataTable({
                 responsive: true,
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('pengungsi.index') }}",
+                    url: "{{ route('kebutuhan.index') }}",
                     error: function(xhr, error, code) {
                         errorAlert(xhr.statusText);
                     }
@@ -46,24 +49,33 @@
                         }
                     },
                     {
-                        data: 'penduduk.Nama'
-                    },
-                    {
-                        data: 'penduduk.kelompok.NamaKelompok'
-                    },
-                    {
                         data: 'posko.user.name'
                     },
                     {
-                        data: 'KondisiKhusus'
+                        data: 'barang.NamaBarang'
                     },
                     {
-                        data: 'IDPosko',
+                        data: 'barang.jenis_barang.JenisBarang'
+                    },
+                    {
+                        data: 'JumlahKebutuhan'
+                    },
+                    {
+                        data: 'JumlahDiterima'
+                    },
+                    {
+                        data: 'user.name'
+                    },
+                    {
+                        data: 'LastUpdateDate'
+                    },
+                    {
+                        data: 'IDKebutuhan',
                         orderable: false,
                         searchable: false,
                         className: 'dt-center',
                         render: function(data, type, row) {
-                            let baseUrl = `{{ url('pengungsi') }}`;
+                            let baseUrl = `{{ url('kebutuhan') }}`;
                             return `
                     <div class="btn-group">
                         <button type="button"

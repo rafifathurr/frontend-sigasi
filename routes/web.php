@@ -43,6 +43,9 @@ Route::group(['middleware' => 'auth.check'], function () {
     // Log Activity route
     Route::get('log-activity', [LogActivityController::class, 'index'])->name('log-activity.index');
 
+    //Distribusi Bantuan routes
+    Route::resource('distribusi-bantuan', KebutuhanController::class);
+
     //Bantuan routes
     Route::resource('bantuan', BantuanController::class);
 

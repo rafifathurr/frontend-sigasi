@@ -15,12 +15,14 @@
                                 id="ktp" required>
                         </div>
                         <div class="form-group mb-3 col-6">
-                            <label for="nama" class="form-label">Nama Lengkap<span class="ms-1 text-danger">*</span></label>
+                            <label for="nama" class="form-label">Nama Lengkap<span
+                                    class="ms-1 text-danger">*</span></label>
                             <input type="text" value="{{ $penduduk->Nama }}" class="form-control" name="nama"
                                 id="nama" required>
                         </div>
                         <div class="form-group mb-3 col-6">
-                            <label for="jenis_kelamin" class="form-label">Jenis Kelamin<span class="ms-1 text-danger">*</span></label>
+                            <label for="jenis_kelamin" class="form-label">Jenis Kelamin<span
+                                    class="ms-1 text-danger">*</span></label>
                             <select class="w-100 select2" name="jenis_kelamin" required>
                                 <option hidden value="">-- Pilih Jenis Kelamin --</option>
                                 <option value="0" {{ $penduduk->JenisKelamin == 0 ? 'selected' : '' }}>Laki
@@ -57,11 +59,11 @@
                             <input type="text" value="{{ $penduduk->Desa }}" class="form-control" name="desa"
                                 id="desa" required>
                         </div>
-                        <div class="form-group mb-3 col-12">
-                            <label for="alamat" class="form-label">Alamat Lengkap<span
-                                    class="ms-1 text-danger">*</span></label>
-                            <textarea class="form-control" name="alamat" id="alamat" rows="3" required>{{ $penduduk->Alamat }}</textarea>
-                        </div>
+                    </div>
+                    <div class="form-group mb-3 col-12">
+                        <label for="alamat" class="form-label">Alamat Lengkap<span
+                                class="ms-1 text-danger">*</span></label>
+                        <textarea class="form-control" name="alamat" id="alamat" rows="3" required>{{ $penduduk->Alamat }}</textarea>
                     </div>
                 </div>
                 <div class="card-footer d-flex flex-row justify-content-end align-items-center gap-2 pb-3 pt-0">

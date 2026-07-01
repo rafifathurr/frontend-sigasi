@@ -1,7 +1,7 @@
 @extends('layout.main')
 @section('content')
     <div class="container-fluid px-0">
-        <h4 class="fw-bold py-3"><span class="text-muted fw-light">Daftar Bantuan /</span> Tambah Bantuan</h4>
+        <h4 class="fw-bold py-3"><span class="text-muted fw-light">Bantuan /</span> Tambah Bantuan</h4>
         <div class="card shadow-sm border-0 w-100">
             <form action="{{ route('bantuan.store') }}" method="POST" id="form-submit">
                 @csrf
@@ -24,6 +24,13 @@
                             </select>
                         </div>
                         <div class="mb-3 col-4">
+                            <label for="tanggal_bantuan" class="form-label">
+                                Tanggal Bantuan<span class="ms-1 text-danger">*</span>
+                            </label>
+                            <input type="date" name="tanggal_bantuan" value="{{ date('Y-m-d') }}"
+                                max="{{ date('Y-m-d') }}" class="form-control" required>
+                        </div>
+                        <div class="mb-3 col-4">
                             <label for="barang" class="form-label">
                                 Barang<span class="ms-1 text-danger">*</span>
                             </label>
@@ -44,25 +51,20 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="mb-3 col-4">
-                            <label for="tanggal_bantuan" class="form-label">
-                                Tanggal Bantuan<span class="ms-1 text-danger">*</span>
-                            </label>
-                            <input type="date" name="tanggal_bantuan" value="{{ date('Y-m-d') }}"
-                                max="{{ date('Y-m-d') }}" class="form-control" required>
-                        </div>
                     </div>
-                    <h5 class="mt-4 border-top pt-4">List Barang</h5>
-                    <div class="table-responsive py3 mb-3">
-                        <table class="table">
-                            <thead>
-                                <th>Nama Barang</th>
-                                <th>Jumlah</th>
-                                <th width="5%">Action</th>
-                            </thead>
-                            <tbody id="tableBody">
-                            </tbody>
-                        </table>
+                    <div class="col-12 border-top mt-4 mb-3">
+                        <h5 class="pt-4">Daftar Barang</h5>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <th>Nama Barang</th>
+                                    <th>Jumlah</th>
+                                    <th width="5%">Action</th>
+                                </thead>
+                                <tbody id="tableBody">
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <div class="card-footer d-flex flex-row justify-content-end align-items-center gap-2 pb-3 pt-0">

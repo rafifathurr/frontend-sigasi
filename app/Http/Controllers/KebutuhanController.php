@@ -27,39 +27,6 @@ class KebutuhanController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function daftarPosko(Request $request)
-    {
-        if ($request->ajax()) {
-
-            $params['all'] = 1;
-
-            if (session('role') == 'posko') {
-                $response = Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/posko', ['all' => 1, 'user' => session('user_id')]);
-                $response_body = json_decode($response->getBody());
-
-                if (!is_null($response_body->data) && !empty($response_body->data)) {
-                    $params['posko'] = $response_body->data[0]->IDPosko;
-                }
-            } else {
-                if (isset($request->posko)) {
-                    $params['posko'] = $request->posko;
-                }
-            }
-
-            $response = Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/kebutuhan', $params);
-            $response_body = json_decode($response->getBody(), true);
-
-            return DataTables::of($response_body['data'])
-                ->addIndexColumn()
-                ->make(true);
-        }
-
-        return view('kebutuhan.daftar_posko');
-    }
-
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
         if ($request->ajax()) {
@@ -84,6 +51,9 @@ class KebutuhanController extends Controller
 
             return DataTables::of($response_body['data'])
                 ->addIndexColumn()
+                ->addColumn('LastUpdateDate', function ($data) {
+                    return date('d F Y H:i:s', strtotime($data['LastUpdateDate']));
+                })
                 ->make(true);
         }
 
@@ -98,6 +68,12 @@ class KebutuhanController extends Controller
         $response =  Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/kebutuhan/create-edit', []);
         $response_body = json_decode($response->getBody());
         $data = $response_body->data;
+
+        $data->is_posko = false;
+
+        if (session('role') == 'posko') {
+            $data->is_posko = true;
+        }
 
         return view('kebutuhan.create', compact('data'));
     }
@@ -124,6 +100,12 @@ class KebutuhanController extends Controller
         $response = Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/kebutuhan/create-edit', ['id' => $id]);
         $response_body = json_decode($response->getBody());
         $data = $response_body->data;
+
+        $data->is_posko = false;
+
+        if (session('role') == 'posko') {
+            $data->is_posko = true;
+        }
 
         return view('kebutuhan.edit', compact('data'));
     }

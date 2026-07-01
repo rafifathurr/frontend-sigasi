@@ -1,58 +1,66 @@
 @extends('layout.main')
 @section('content')
     <div class="container-fluid px-0">
-        <h4 class="fw-bold py-3"><span class="text-muted fw-light">Pengungsi /</span> Edit Pengungsi</h4>
+        <h4 class="fw-bold py-3"><span class="text-muted fw-light">Kebutuhan /</span> Edit Kebutuhan</h4>
         <div class="card shadow-sm border-0 w-100">
-            <form action="{{ route('pengungsi.update', $data->pengungsi->IDPengungsi) }}" method="POST" id="form-submit">
+            <form action="{{ route('kebutuhan.update', $data->kebutuhan->IDKebutuhan) }}" method="POST" id="form-submit">
                 @method('PUT')
                 @csrf
                 <div class="card-body">
+                    <div class="form-group mb-3 col-12">
+                        <label for="idPosko" class="form-label">
+                            Posko<span class="ms-1 text-danger">*</span>
+                        </label>
+                        <select class="w-100 {{ $data->is_posko ? 'form-control pe-none' : 'select2' }}" name="idPosko"
+                            required {{ $data->is_posko ? 'readonly' : '' }}>
+                            @if (empty($data->poskos))
+                                <option hidden value="">Data Tidak ada</option>
+                            @else
+                                <option hidden value="">-- Pilih Posko --</option>
+                                @foreach ($data->poskos as $item)
+                                    <option value="{{ $item->IDPosko }}"
+                                        {{ $data->is_posko && $data->posko->IDPosko == $item->IDPosko ? 'selected' : '' }}>
+                                        {{ $item->user->name }}</option>
+                                @endforeach
+                            @endif
+                        </select>
+                    </div>
                     <div class="row">
-                        <div class="form-group mb-3 col-12">
+                        <div class="form-group mb-3 col-4">
                             <label for="idPosko" class="form-label">
-                                Posko<span class="ms-1 text-danger">*</span>
+                                Barang<span class="ms-1 text-danger">*</span>
                             </label>
-                            <select class="w-100 select2" name="idPosko" required>
-                                @if (empty($data->posko))
+                            <select class="w-100 select2" name="idProduct" required>
+                                @if (empty($data->barang))
                                     <option hidden value="">Data Tidak ada</option>
                                 @else
                                     <option hidden value="">-- Pilih Posko --</option>
-                                    @foreach ($data->posko as $item)
-                                        <option value="{{ $item->IDPosko }}"
-                                            {{ $item->IDPosko == $data->pengungsi->IDPosko ? 'selected' : '' }}>
-                                            {{ $item->user->name }}</option>
+                                    @foreach ($data->barang as $item)
+                                        <option value="{{ $item->IDBarang }}"
+                                            {{ $data->kebutuhan->IDBarang == $item->IDBarang ? 'selected' : '' }}>
+                                            {{ $item->NamaBarang }}</option>
                                     @endforeach
                                 @endif
                             </select>
                         </div>
-                        <div class="form-group mb-3 col-12">
-                            <label for="idPenduduk" class="form-label">
-                                Penduduk<span class="ms-1 text-danger">*</span>
+                        <div class="form-group mb-3 col-4">
+                            <label for="idPosko" class="form-label">
+                                Jumlah Dibutuhkan<span class="ms-1 text-danger">*</span>
                             </label>
-                            <select class="w-100 select2" name="idPenduduk" required>
-                                @if (empty($data->penduduk))
-                                    <option hidden value="">Data Tidak ada</option>
-                                @else
-                                    <option hidden value="">-- Pilih Penduduk --</option>
-                                    @foreach ($data->penduduk as $item)
-                                        <option value="{{ $item->IDPenduduk }}"
-                                            {{ $item->IDPenduduk == $data->pengungsi->IDPenduduk ? 'selected' : '' }}>
-                                            {{ $item->Nama }}</option>
-                                    @endforeach
-                                @endif
-                            </select>
+                            <input type="number" class="form-control" min="1" name="qtyRequest"
+                                placeholder="Contoh: 50" value="{{ $data->kebutuhan->JumlahKebutuhan }}" />
                         </div>
-                        <div class="form-group mb-3 col-12">
-                            <label for="condition" class="form-label">
-                                Kondisi<span class="ms-1 text-danger">*</span>
+                        <div class="form-group mb-3 col-4">
+                            <label for="idPosko" class="form-label">
+                                Jumlah Diterima
                             </label>
-                            <textarea class="form-control" name="condition" rows="3" required>{{ $data->pengungsi->KondisiKhusus }}</textarea>
+                            <input type="number" class="form-control inp-qty" min="1" name="qtyReceived"
+                                placeholder="Contoh: 50" value="{{ $data->kebutuhan->JumlahDiterima }}" />
                         </div>
                     </div>
                 </div>
-
                 <div class="card-footer d-flex flex-row justify-content-end align-items-center gap-2 pb-3 pt-0">
-                    <a class="btn btn-secondary text-white" href="{{ route('pengungsi.index') }}">
+                    <a class="btn btn-secondary text-white" href="{{ route('kebutuhan.index') }}">
                         <i class="fa fa-arrow-left me-2"></i>
                         Kembali
                     </a>

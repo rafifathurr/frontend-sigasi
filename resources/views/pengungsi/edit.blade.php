@@ -7,47 +7,45 @@
                 @method('PUT')
                 @csrf
                 <div class="card-body">
-                    <div class="row">
-                        <div class="form-group mb-3 col-12">
-                            <label for="idPosko" class="form-label">
-                                Posko<span class="ms-1 text-danger">*</span>
-                            </label>
-                            <select class="w-100 select2" name="idPosko" required>
-                                @if (empty($data->posko))
-                                    <option hidden value="">Data Tidak ada</option>
-                                @else
-                                    <option hidden value="">-- Pilih Posko --</option>
-                                    @foreach ($data->posko as $item)
-                                        <option value="{{ $item->IDPosko }}"
-                                            {{ $item->IDPosko == $data->pengungsi->IDPosko ? 'selected' : '' }}>
-                                            {{ $item->user->name }}</option>
-                                    @endforeach
-                                @endif
-                            </select>
-                        </div>
-                        <div class="form-group mb-3 col-12">
-                            <label for="idPenduduk" class="form-label">
-                                Penduduk<span class="ms-1 text-danger">*</span>
-                            </label>
-                            <select class="w-100 select2" name="idPenduduk" required>
-                                @if (empty($data->penduduk))
-                                    <option hidden value="">Data Tidak ada</option>
-                                @else
-                                    <option hidden value="">-- Pilih Penduduk --</option>
-                                    @foreach ($data->penduduk as $item)
-                                        <option value="{{ $item->IDPenduduk }}"
-                                            {{ $item->IDPenduduk == $data->pengungsi->IDPenduduk ? 'selected' : '' }}>
-                                            {{ $item->Nama }}</option>
-                                    @endforeach
-                                @endif
-                            </select>
-                        </div>
-                        <div class="form-group mb-3 col-12">
-                            <label for="condition" class="form-label">
-                                Kondisi<span class="ms-1 text-danger">*</span>
-                            </label>
-                            <textarea class="form-control" name="condition" rows="3" required>{{ $data->pengungsi->KondisiKhusus }}</textarea>
-                        </div>
+                    <div class="form-group mb-3 col-12">
+                        <label for="idPosko" class="form-label">
+                            Posko<span class="ms-1 text-danger">*</span>
+                        </label>
+                        <select class="w-100 select2" name="idPosko" required>
+                            @if (empty($data->posko))
+                                <option hidden value="">Data Tidak ada</option>
+                            @else
+                                <option hidden value="">-- Pilih Posko --</option>
+                                @foreach ($data->posko as $item)
+                                    <option value="{{ $item->IDPosko }}"
+                                        {{ $item->IDPosko == $data->pengungsi->IDPosko ? 'selected' : '' }}>
+                                        {{ $item->user->name }}</option>
+                                @endforeach
+                            @endif
+                        </select>
+                    </div>
+                    <div class="form-group mb-3 col-12">
+                        <label for="idPenduduk" class="form-label">
+                            Penduduk<span class="ms-1 text-danger">*</span>
+                        </label>
+                        <select class="w-100 select2" name="idPenduduk" required>
+                            @if (empty($data->penduduk))
+                                <option hidden value="">Data Tidak ada</option>
+                            @else
+                                <option hidden value="">-- Pilih Penduduk --</option>
+                                @foreach ($data->penduduk as $item)
+                                    <option value="{{ $item->IDPenduduk }}"
+                                        {{ $item->IDPenduduk == $data->pengungsi->IDPenduduk ? 'selected' : '' }}>
+                                        {{ $item->Nama }}</option>
+                                @endforeach
+                            @endif
+                        </select>
+                    </div>
+                    <div class="form-group mb-3 col-12">
+                        <label for="condition" class="form-label">
+                            Kondisi<span class="ms-1 text-danger">*</span>
+                        </label>
+                        <textarea class="form-control" name="condition" rows="3" required>{{ $data->pengungsi->KondisiKhusus }}</textarea>
                     </div>
                 </div>
 
