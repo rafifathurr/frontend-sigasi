@@ -29,7 +29,8 @@ class DonaturController extends Controller
                 ->make(true);
         }
 
-        return view('donatur.index');
+        $title = 'Daftar Donatur';
+        return view('donatur.index', compact('title'));
     }
 
     /**
@@ -37,7 +38,8 @@ class DonaturController extends Controller
      */
     public function create()
     {
-        return view('donatur.create');
+        $title = 'Tambah Donatur';
+        return view('donatur.create', compact('title'));
     }
 
     /**

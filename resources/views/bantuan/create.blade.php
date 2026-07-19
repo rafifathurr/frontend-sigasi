@@ -55,7 +55,7 @@
                     <div class="col-12 border-top mt-4 mb-3">
                         <h5 class="pt-4">Daftar Barang</h5>
                         <div class="table-responsive">
-                            <table class="table">
+                            <table class="table table-bordered">
                                 <thead>
                                     <th>Nama Barang</th>
                                     <th>Jumlah</th>

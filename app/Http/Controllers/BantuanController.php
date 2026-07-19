@@ -27,13 +27,14 @@ class BantuanController extends Controller
 
             return DataTables::of($response_body['data'])
                 ->addIndexColumn()
-                 ->addColumn('TanggalBantuan', function ($data) {
+                ->addColumn('TanggalBantuan', function ($data) {
                     return date('d F Y H:i:s', strtotime($data['TanggalBantuan']));
                 })
                 ->make(true);
         }
 
-        return view('bantuan.index');
+        $title = 'Daftar Bantuan';
+        return view('bantuan.index', compact('title'));
     }
 
     /**
@@ -41,6 +42,7 @@ class BantuanController extends Controller
      */
     public function create()
     {
+        $title = 'Tambah Bantuan';
         $response =  Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/donatur', []);
         $response_body = json_decode($response->getBody());
         $donaturs = $response_body->data->data;
@@ -49,7 +51,7 @@ class BantuanController extends Controller
         $response_body = json_decode($response->getBody());
         $barangs = $response_body->data->data;
 
-        return view('bantuan.create', compact('donaturs', 'barangs'));
+        return view('bantuan.create', compact('title', 'donaturs', 'barangs'));
     }
 
     /**
@@ -71,11 +73,12 @@ class BantuanController extends Controller
      */
     public function show(string $id)
     {
+        $title = 'Detail Bantuan';
         $response =  Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/bantuan/show/' . $id, []);
         $response_body = json_decode($response->getBody());
         $bantuan = $response_body->data;
 
-        return view('bantuan.view', compact('bantuan'));
+        return view('bantuan.view', compact('title', 'bantuan'));
     }
 
     /**
@@ -83,6 +86,7 @@ class BantuanController extends Controller
      */
     public function edit(string $id)
     {
+        $title = 'Edit Bantuan';
         $response =  Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/donatur', []);
         $response_body = json_decode($response->getBody());
         $donaturs = $response_body->data->data;
@@ -95,7 +99,7 @@ class BantuanController extends Controller
         $response_body = json_decode($response->getBody());
         $bantuan = $response_body->data;
 
-        return view('bantuan.edit', compact('bantuan', 'barangs', 'donaturs'));
+        return view('bantuan.edit', compact('title', 'bantuan', 'barangs', 'donaturs'));
     }
 
     /**

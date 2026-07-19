@@ -32,6 +32,7 @@ class LogActivityController extends Controller
                 ->make(true);
         }
 
-        return view('log_activity.index');
+        $title = 'Daftar Log Activity';
+        return view('log_activity.index', compact('title'));
     }
 }

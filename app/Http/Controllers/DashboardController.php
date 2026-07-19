@@ -23,11 +23,13 @@ class DashboardController extends Controller
             $response =  Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/dashboard', []);
             $response_body = json_decode($response->getBody());
 
+            $data['distribusi_bantuan'] = $response_body->data->distribusi_bantuan;
             $data['bantuan'] = $response_body->data->bantuan;
             $data['penduduk'] = $response_body->data->penduduk;
             $data['barang'] = $response_body->data->barang;
         } 
 
+        $data['title'] = 'Dashboard';
         return view('dashboard.index', $data);
     }
 }

@@ -1,80 +1,69 @@
 @extends('layout.main')
 @section('content')
     <div class="container-fluid px-0">
-        <h4 class="fw-bold py-3"><span class="text-muted fw-light">Bantuan /</span> Detail Bantuan</h4>
+        <h4 class="fw-bold py-3"><span class="text-muted fw-light">Distribusi Bantuan /</span> Detail Distribusi Bantuan</h4>
         <div class="card shadow-sm border-0 w-100">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-12">
                         <table>
                             <tr>
                                 <th style="padding-top: 10px; padding-bottom: 10px;" class="text-left" scope="row">
-                                    Nama Perusahaan
+                                    Donatur
                                 </th>
                                 <td width="10%">
                                     <center>:</center>
                                 </td>
                                 <td>
-                                    {{ $bantuan->donatur->NamaPerusahaan }}
+                                    {{ $distribusi_bantuan->bantuan->donatur->NamaPerusahaan }}
                                 </td>
                             </tr>
                             <tr>
                                 <th style="padding-top: 10px; padding-bottom: 10px;" class="text-left" scope="row">
-                                    Alamat Perusahaan
+                                    Tujuan Posko
                                 </th>
                                 <td width="10%">
                                     <center>:</center>
                                 </td>
                                 <td>
-                                    {{ $bantuan->donatur->Alamat }}
+                                    {{ $distribusi_bantuan->posko->user->name }}
                                 </td>
                             </tr>
                             <tr>
                                 <th style="padding-top: 10px; padding-bottom: 10px;" class="text-left" scope="row">
-                                    Nomor Perusahaan
+                                    Tanggal Distribusi
                                 </th>
                                 <td width="10%">
                                     <center>:</center>
                                 </td>
                                 <td>
-                                    {{ $bantuan->donatur->NomorKontak }}
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="col-6">
-                        <table>
-                            <tr>
-                                <th style="padding-top: 10px; padding-bottom: 10px;" class="text-left" scope="row">
-                                    Tanggal Bantuan
-                                </th>
-                                <td width="10%">
-                                    <center>:</center>
-                                </td>
-                                <td>
-                                    {{ date('d F Y', strtotime($bantuan->TanggalBantuan)) }}
+                                    {{ date('d F Y', strtotime($distribusi_bantuan->TanggalDistribusi)) }}
                                 </td>
                             </tr>
                         </table>
                     </div>
                 </div>
                 <div class="col-12 border-top mt-4 mb-3">
-                    <h5 class="pt-4">Daftar Barang</h5>
+                    <h5 class="pt-4">Daftar Barang Bantuan</h5>
                     <div class="table-responsive">
                         <table class="table table-bordered datatable">
                             <thead>
                                 <tr>
                                     <th width="5%">No</th>
                                     <th>Nama Barang</th>
-                                    <th>Jumlah</th>
+                                    <th>Jenis Barang</th>
+                                    <th width="10%">Jumlah</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($bantuan->bantuan_detail as $item)
+                                @foreach ($distribusi_bantuan->bantuan->bantuan_detail as $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>
                                             {{ $item->barang->NamaBarang }}
+                                        </td>
+                                        <td>
+                                            {{ $item->barang->jenis_barang->JenisBarang }}
                                         </td>
                                         <td>
                                             {{ $item->Jumlah }}
@@ -87,7 +76,7 @@
                 </div>
             </div>
             <div class="card-footer d-flex flex-row justify-content-end align-items-center gap-2 pb-3 pt-0">
-                <a class="btn btn-secondary text-white" href="{{ route('bantuan.index') }}">
+                <a class="btn btn-secondary text-white" href="{{ route('distribusi-bantuan.index') }}">
                     <i class="fa fa-arrow-left me-2"></i>
                     Kembali
                 </a>

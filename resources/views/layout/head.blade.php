@@ -3,7 +3,7 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>SIGASI APP</title>
+    <title>{{ isset($title) ? " $title - " : '' }}SIGASI APP</title>
 
     <meta name="description" content="" />
 
@@ -38,6 +38,6 @@
     <script src="<?= asset('assets/js/config.js') ?>"></script>
     <style>
 
-        
+
     </style>
 </head>

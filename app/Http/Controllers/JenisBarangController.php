@@ -29,7 +29,8 @@ class JenisBarangController extends Controller
                 ->make(true);
         }
 
-        return view('jenis_barang.index');
+        $title = 'Daftar Jenis Barang';
+        return view('jenis_barang.index', compact('title'));
     }
 
     /**
@@ -37,7 +38,8 @@ class JenisBarangController extends Controller
      */
     public function create()
     {
-        return view('jenis_barang.create');
+        $title = 'Tambah Jenis Barang';
+        return view('jenis_barang.create', compact('title'));
     }
 
     /**
@@ -59,11 +61,12 @@ class JenisBarangController extends Controller
      */
     public function edit(string $id)
     {
+        $title = 'Edit Jenis Barang';
         $response = Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/jenis-barang/show/' . $id, []);
         $response_body = json_decode($response->getBody());
         $data = $response_body->data;
 
-        return view('jenis_barang.edit', compact('data'));
+        return view('jenis_barang.edit', compact('title', 'data'));
     }
 
     /**

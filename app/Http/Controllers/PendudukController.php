@@ -29,7 +29,8 @@ class PendudukController extends Controller
                 ->make(true);
         }
 
-        return view('penduduk.index');
+        $title = 'Daftar Penduduk';
+        return view('penduduk.index', compact('title'));
     }
 
     /**
@@ -37,11 +38,12 @@ class PendudukController extends Controller
      */
     public function create()
     {
+        $title = 'Tambah Penduduk';
         $response =  Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/penduduk/create-edit', []);
         $response_body = json_decode($response->getBody()); 
         $kelompoks = $response_body->data->kelompok;
 
-        return view('penduduk.create', compact('kelompoks'));
+        return view('penduduk.create', compact('title', 'kelompoks'));
     }
 
     /**
@@ -63,11 +65,12 @@ class PendudukController extends Controller
      */
     public function show(string $id)
     {
+        $title = 'Detail Penduduk';
         $response =  Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/penduduk/show/' . $id, []);
         $response_body = json_decode($response->getBody());
         $penduduk = $response_body->data;
 
-        return view('penduduk.view', compact('penduduk'));
+        return view('penduduk.view', compact('title', 'penduduk'));
     }
 
     /**
@@ -75,6 +78,7 @@ class PendudukController extends Controller
      */
     public function edit(string $id)
     {
+        $title = 'Edit Penduduk';
         $response =  Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/penduduk/show/' . $id, []);
         $response_body = json_decode($response->getBody());
         $penduduk = $response_body->data;
@@ -83,7 +87,7 @@ class PendudukController extends Controller
         $response_body = json_decode($response->getBody());
         $kelompoks = $response_body->data->data;
 
-        return view('penduduk.edit', compact('penduduk', 'kelompoks'));
+        return view('penduduk.edit', compact('title', 'penduduk', 'kelompoks'));
     }
 
     /**

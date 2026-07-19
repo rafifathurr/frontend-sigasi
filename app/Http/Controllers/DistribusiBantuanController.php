@@ -6,11 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Yajra\DataTables\DataTables;
 
-class KebutuhanController extends Controller
+class DistribusiBantuanController extends Controller
 {
     public function __construct()
     {
-        $this->menu_code = 'kebutuhan';
+        $this->menu_code = 'distribusi-bantuan';
         parent::__construct();
         $this->middleware('auth.check');
 
@@ -46,19 +46,19 @@ class KebutuhanController extends Controller
                 }
             }
 
-            $response = Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/kebutuhan', $params);
+            $response = Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/distribusi-bantuan', $params);
             $response_body = json_decode($response->getBody(), true);
 
             return DataTables::of($response_body['data'])
                 ->addIndexColumn()
-                ->addColumn('LastUpdateDate', function ($data) {
-                    return date('d F Y H:i:s', strtotime($data['LastUpdateDate']));
+                ->addColumn('TanggalDistribusi', function ($data) {
+                    return date('d F Y', strtotime($data['TanggalDistribusi']));
                 })
                 ->make(true);
         }
 
-        $title = 'Daftar Kebutuhan';
-        return view('kebutuhan.index', compact('title'));
+        $title = 'Daftar Distribusi Bantuan';
+        return view('distribusi_bantuan.index', compact('title'));
     }
 
     /**
@@ -66,18 +66,31 @@ class KebutuhanController extends Controller
      */
     public function create()
     {
-        $title = 'Tambah Kebutuhan';
-        $response =  Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/kebutuhan/create-edit', []);
+        $title = 'Tambah Distribusi Bantuan';
+        $response =  Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/distribusi-bantuan/create-edit', []);
         $response_body = json_decode($response->getBody());
         $data = $response_body->data;
 
-        $data->is_posko = false;
+        return view('distribusi_bantuan.create', compact('title', 'data'));
+    }
 
-        if (session('role') == 'posko') {
-            $data->is_posko = true;
+    public function bantuan(Request $request)
+    {
+        $url_request = env('API_URL') . 'api/bantuan';
+
+        $bantuan = [];
+
+        if ($request->bantuan_id) {
+            $response =  Http::withToken(session('jwt_token'))->get("{$url_request}/show/{$request->bantuan_id}", []);
+            $response_body = json_decode($response->getBody());
+            $bantuan = $response_body->data;
+        } else {
+            $response =  Http::withToken(session('jwt_token'))->get("{$url_request}", []);
+            $response_body = json_decode($response->getBody());
+            $bantuan = $response_body->data;
         }
 
-        return view('kebutuhan.create', compact('title', 'data'));
+        return response()->json($bantuan);
     }
 
     /**
@@ -85,13 +98,26 @@ class KebutuhanController extends Controller
      */
     public function store(Request $request)
     {
-        $response = Http::withToken(session('jwt_token'))->post(env('API_URL') . 'api/kebutuhan/store', $request->all());
+        $response = Http::withToken(session('jwt_token'))->post(env('API_URL') . 'api/distribusi-bantuan/store', $request->all());
 
         if ($response->created()) {
-            return redirect()->route('kebutuhan.index')->with('success', "Data berhasil disimpan.");
+            return redirect()->route('distribusi-bantuan.index')->with('success', "Data berhasil disimpan.");
         }
 
         return redirect()->back()->with('error', "Internal server error.")->withInput();
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        $title = 'Detail Distribusi Bantuan';
+        $response =  Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/distribusi-bantuan/show/' . $id, []);
+        $response_body = json_decode($response->getBody());
+        $distribusi_bantuan = $response_body->data;
+
+        return view('distribusi_bantuan.view', compact('title', 'distribusi_bantuan'));
     }
 
     /**
@@ -99,18 +125,12 @@ class KebutuhanController extends Controller
      */
     public function edit(string $id)
     {
-        $title = 'Edit Kebutuhan';
-        $response = Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/kebutuhan/create-edit', ['id' => $id]);
+        $title = 'Edit Distribusi Bantuan';
+        $response = Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/distribusi-bantuan/create-edit', ['id' => $id]);
         $response_body = json_decode($response->getBody());
         $data = $response_body->data;
 
-        $data->is_posko = false;
-
-        if (session('role') == 'posko') {
-            $data->is_posko = true;
-        }
-
-        return view('kebutuhan.edit', compact('title', 'data'));
+        return view('distribusi_bantuan.edit', compact('title', 'data'));
     }
 
     /**
@@ -118,10 +138,10 @@ class KebutuhanController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $response  = Http::withToken(session('jwt_token'))->put(env('API_URL') . 'api/kebutuhan/update/' . $id, $request->all());
+        $response  = Http::withToken(session('jwt_token'))->put(env('API_URL') . 'api/distribusi-bantuan/update/' . $id, $request->all());
 
         if ($response->ok()) {
-            return redirect()->route('kebutuhan.index')->with('success', "Data berhasil diperbarui.");
+            return redirect()->route('distribusi-bantuan.index')->with('success', "Data berhasil diperbarui.");
         }
 
         return redirect()->back()->with('error', "Internal server error.")->withInput();
@@ -132,7 +152,7 @@ class KebutuhanController extends Controller
      */
     public function destroy(string $id)
     {
-        $response =  Http::withToken(session('jwt_token'))->delete(env('API_URL') . 'api/kebutuhan/delete/' . $id, []);
+        $response =  Http::withToken(session('jwt_token'))->delete(env('API_URL') . 'api/distribusi-bantuan/delete/' . $id, []);
 
         if ($response->ok()) {
             return redirect()->back()->with('success', "Data berhasil dihapus.");

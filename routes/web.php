@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BantuanController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DistribusiBantuanController;
 use App\Http\Controllers\DonaturController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JenisBarangController;
@@ -44,7 +45,8 @@ Route::group(['middleware' => 'auth.check'], function () {
     Route::get('log-activity', [LogActivityController::class, 'index'])->name('log-activity.index');
 
     //Distribusi Bantuan routes
-    Route::resource('distribusi-bantuan', KebutuhanController::class);
+    Route::resource('distribusi-bantuan', DistribusiBantuanController::class);
+    Route::post('distribusi-bantuan/bantuan', [DistribusiBantuanController::class, 'bantuan'])->name('distribusi-bantuan.bantuan');
 
     //Bantuan routes
     Route::resource('bantuan', BantuanController::class);

@@ -15,6 +15,7 @@ class HomeController extends Controller
 
     public function index()
     {
+        $data['title'] = 'Home';
         $data['role'] = session('role');
         $data['name'] = session('name');
         return view('home', $data);

@@ -1,7 +1,7 @@
 @extends('layout.main')
 @section('content')
     <div class="container-fluid px-0">
-        <h4 class="fw-bold py-3"><span class="text-muted fw-light">Penduduk /</span> Detail Penduduk</h4>
+        <h4 class="fw-bold py-3"><span class="text-muted fw-light">Pengguna /</span> Detail Pengguna</h4>
         <div class="card shadow-sm border-0 w-100">
             <div class="card-body">
                 <div class="row">

@@ -29,7 +29,8 @@ class KelompokController extends Controller
                 ->make(true);
         }
 
-        return view('kelompok.index');
+        $title = 'Daftar Kelompok';
+        return view('kelompok.index', compact('title'));
     }
 
     /**
@@ -37,7 +38,8 @@ class KelompokController extends Controller
      */
     public function create()
     {
-        return view('kelompok.create');
+        $title = 'Tambah Kelompok';
+        return view('kelompok.create', compact('title'));
     }
 
     /**
@@ -59,11 +61,12 @@ class KelompokController extends Controller
      */
     public function show(string $id)
     {
+        $title = 'Detail Kelompok';
         $response =  Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/kelompok/show/' . $id, []);
         $response_body = json_decode($response->getBody());
         $data = $response_body->data;
 
-        return view('kelompok.view', compact('data'));
+        return view('kelompok.view', compact('title', 'data'));
     }
 
     /**
@@ -71,11 +74,12 @@ class KelompokController extends Controller
      */
     public function edit(string $id)
     {
+        $title = 'Edit Kelompok';
         $response =  Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/kelompok/show/' . $id, []);
         $response_body = json_decode($response->getBody());
         $data = $response_body->data;
 
-        return view('kelompok.edit', compact('data'));
+        return view('kelompok.edit', compact('title', 'data'));
     }
 
     /**

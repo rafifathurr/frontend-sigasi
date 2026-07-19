@@ -44,7 +44,8 @@ class PengungsiController extends Controller
                 ->make(true);
         }
 
-        return view('pengungsi.index');
+        $title = 'Daftar Pengungsi';
+        return view('pengungsi.index', compact('title'));
     }
 
     /**
@@ -52,11 +53,12 @@ class PengungsiController extends Controller
      */
     public function create()
     {
+        $title = 'Tambah Pengungsi';
         $response =  Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/pengungsi/create-edit', []);
         $response_body = json_decode($response->getBody());
         $data = $response_body->data;
 
-        return view('pengungsi.create', compact('data'));
+        return view('pengungsi.create', compact('title', 'data'));
     }
 
     /**
@@ -84,11 +86,12 @@ class PengungsiController extends Controller
      */
     public function edit(string $id)
     {
+        $title = 'Edit Pengungsi';
         $response = Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/pengungsi/create-edit', ['id' => $id]);
         $response_body = json_decode($response->getBody());
         $data = $response_body->data;
 
-        return view('pengungsi.edit', compact('data'));
+        return view('pengungsi.edit', compact('title', 'data'));
     }
 
     /**

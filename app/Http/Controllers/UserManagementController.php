@@ -35,7 +35,8 @@ class UserManagementController extends Controller
                 ->make(true);
         }
 
-        return view('user_management.index');
+        $title = 'Daftar Pengguna';
+        return view('user_management.index', compact('title'));
     }
 
     /**
@@ -43,11 +44,12 @@ class UserManagementController extends Controller
      */
     public function create()
     {
+        $title = 'Tambah Pengguna';
         $response =  Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/user-management/create-edit', []);
         $response_body = json_decode($response->getBody());
         $roles = $response_body->data->roles;
 
-        return view('user_management.create', compact('roles'));
+        return view('user_management.create', compact('title', 'roles'));
     }
 
     /**
@@ -69,11 +71,12 @@ class UserManagementController extends Controller
      */
     public function show(string $id)
     {
+        $title = 'Detail Pengguna';
         $response =  Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/user-management/create-edit', ['id' => $id]);
         $response_body = json_decode($response->getBody());
         $data = $response_body->data;
 
-        return view('user_management.view', compact('data'));
+        return view('user_management.view', compact('title', 'data'));
     }
 
     /**
@@ -81,11 +84,12 @@ class UserManagementController extends Controller
      */
     public function edit(string $id)
     {
+        $title = 'Edit Pengguna';
         $response =  Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/user-management/create-edit', ['id' => $id]);
         $response_body = json_decode($response->getBody());
         $data = $response_body->data;
 
-        return view('user_management.edit', compact('data'));
+        return view('user_management.edit', compact('title', 'data'));
     }
 
     /**

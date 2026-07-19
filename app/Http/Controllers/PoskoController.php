@@ -29,7 +29,8 @@ class PoskoController extends Controller
                 ->make(true);
         }
 
-        return view('posko.index');
+        $title = 'Daftar Posko';
+        return view('posko.index', compact('title'));
     }
 
     /**
@@ -37,11 +38,12 @@ class PoskoController extends Controller
      */
     public function create()
     {
+        $title = 'Tambah Posko';
         $response =  Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/posko/create-edit', []);
         $response_body = json_decode($response->getBody());
         $users = $response_body->data->users;
 
-        return view('posko.create', compact('users'));
+        return view('posko.create', compact('title', 'users'));
     }
 
     /**
@@ -63,11 +65,12 @@ class PoskoController extends Controller
      */
     public function edit(string $id)
     {
+        $title = 'Edit Posko';
         $response = Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/posko/create-edit', ['id' => $id]);
         $response_body = json_decode($response->getBody());
         $data = $response_body->data;
 
-        return view('posko.edit', compact('data'));
+        return view('posko.edit', compact('title', 'data'));
     }
 
     /**
