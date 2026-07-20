@@ -129,7 +129,7 @@
                         },
                         {
                             data: 'Deskripsi'
-                        }  
+                        },  
                         {
                             data: 'IDDistribusiBantuan',
                             orderable: false,
