@@ -28,7 +28,7 @@ class BantuanController extends Controller
             return DataTables::of($response_body['data'])
                 ->addIndexColumn()
                 ->addColumn('TanggalBantuan', function ($data) {
-                    return date('d F Y H:i:s', strtotime($data['TanggalBantuan']));
+                    return date('d F Y', strtotime($data['TanggalBantuan']));
                 })
                 ->make(true);
         }

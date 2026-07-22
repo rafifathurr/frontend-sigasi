@@ -7,7 +7,7 @@
                 @method('PUT')
                 @csrf
                 <div class="card-body">
-                    <div class="form-group mb-3 col-12">
+                    <div class="form-group mb-3 col-lg-12">
                         <label for="idUser" class="form-label">
                             User<span class="ms-1 text-danger">*</span>
                         </label>
@@ -24,19 +24,19 @@
                             @endif
                         </select>
                     </div>
-                    <div class="form-group mb-3 col-12">
+                    <div class="form-group mb-3 col-lg-12">
                         <label for="location" class="form-label">
                             Lokasi<span class="ms-1 text-danger">*</span>
                         </label>
                         <textarea class="form-control" name="location" rows="3" required>{{ $data->posko->Lokasi }}</textarea>
                     </div>
-                    <div class="form-group mb-3 col-12">
+                    <div class="form-group mb-3 col-lg-12">
                         <label for="problem" class="form-label">
                             Masalah<span class="ms-1 text-danger">*</span>
                         </label>
                         <textarea class="form-control" name="problem" rows="3" required>{{ $data->posko->Masalah }}</textarea>
                     </div>
-                    <div class="form-group mb-3 col-12">
+                    <div class="form-group mb-3 col-lg-12">
                         <label for="solution" class="form-label">
                             Solusi<span class="ms-1 text-danger">*</span>
                         </label>

@@ -8,31 +8,31 @@
                 @csrf
                 <div class="card-body">
                     <div class="row">
-                        <div class="form-group mb-3 col-6">
+                        <div class="form-group mb-3 col-lg-6">
                             <label for="name" class="form-label">
                                 Nama<span class="ms-1 text-danger">*</span>
                             </label>
                             <input type="text" class="form-control" name="name" value="{{ $data->user->name }}" required>
                         </div>
-                        <div class="form-group mb-3 col-6">
+                        <div class="form-group mb-3 col-lg-6">
                             <label for="email" class="form-label">
                                 Email<span class="ms-1 text-danger">*</span>
                             </label>
                             <input type="mail" class="form-control" name="email" value="{{ $data->user->email }}" required>
                         </div>
-                        <div class="form-group mb-3 col-4">
+                        <div class="form-group mb-3 col-lg-4">
                             <label for="username" class="form-label">
                                 Username<span class="ms-1 text-danger">*</span>
                             </label>
                             <input type="text" class="form-control" name="username" value="{{ $data->user->username }}" required>
                         </div>
-                        <div class="form-group mb-3 col-4">
+                        <div class="form-group mb-3 col-lg-4">
                             <label for="phone" class="form-label">
                                 No. Telepon<span class="ms-1 text-danger">*</span>
                             </label>
                             <input type="number" class="form-control" name="phone" value="{{ $data->user->phone }}" required>
                         </div>
-                        <div class="form-group mb-3 col-4">
+                        <div class="form-group mb-3 col-lg-4">
                             <label for="role" class="form-label">
                                 Role<span class="ms-1 text-danger">*</span>
                             </label>
@@ -47,19 +47,19 @@
                                 @endif
                             </select>
                         </div>
-                        <div class="form-group mb-3 col-6">
+                        <div class="form-group mb-3 col-lg-6">
                             <label for="password" class="form-label">
                                 Password
                             </label>
                             <input type="password" class="form-control" name="password">
                         </div>
-                        <div class="form-group mb-3 col-6">
+                        <div class="form-group mb-3 col-lg-6">
                             <label for="password_confirmation" class="form-label">
                                 Konfirmasi Password
                             </label>
                             <input type="password" class="form-control" name="password_confirmation">
                         </div>
-                        <div class="form-group mb-3 col-12">
+                        <div class="form-group mb-3 col-lg-12">
                             <label for="address" class="form-label">
                                 Alamat Lengkap<span class="ms-1 text-danger">*</span>
                             </label>

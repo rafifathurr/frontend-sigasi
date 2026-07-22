@@ -5,32 +5,32 @@
         <div class="card shadow-sm border-0 w-100">
             <div class="card-body">
                 <div class="row">
-                    <div class="form-group mb-3 col-6">
+                    <div class="form-group mb-3 col-lg-6">
                         <label for="name" class="form-label">
                             Nama
                         </label>
                         <input type="text" class="form-control" name="name" value="{{ $data->user->name }}" readonly>
                     </div>
-                    <div class="form-group mb-3 col-6">
+                    <div class="form-group mb-3 col-lg-6">
                         <label for="email" class="form-label">
                             Email
                         </label>
                         <input type="mail" class="form-control" name="email" value="{{ $data->user->email }}" readonly>
                     </div>
-                    <div class="form-group mb-3 col-4">
+                    <div class="form-group mb-3 col-lg-4">
                         <label for="username" class="form-label">
                             Username
                         </label>
                         <input type="text" class="form-control" name="username" value="{{ $data->user->username }}"
                             readonly>
                     </div>
-                    <div class="form-group mb-3 col-4">
+                    <div class="form-group mb-3 col-lg-4">
                         <label for="phone" class="form-label">
                             No. Telepon
                         </label>
                         <input type="number" class="form-control" name="phone" value="{{ $data->user->phone }}" readonly>
                     </div>
-                    <div class="form-group mb-3 col-4">
+                    <div class="form-group mb-3 col-lg-4">
                         <label for="role" class="form-label">
                             Role
                         </label>
@@ -46,7 +46,7 @@
                             @endif
                         </select>
                     </div>
-                    <div class="form-group mb-3 col-12">
+                    <div class="form-group mb-3 col-lg-12">
                         <label for="alamat" class="form-label">
                             Alamat Lengkap
                         </label>

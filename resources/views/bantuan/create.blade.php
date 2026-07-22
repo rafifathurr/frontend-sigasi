@@ -7,7 +7,7 @@
                 @csrf
                 <div class="card-body">
                     <div class="row">
-                        <div class="mb-3 col-4">
+                        <div class="mb-3 col-lg-4">
                             <label for="donatur" class="form-label">
                                 Donatur<span class="ms-1 text-danger">*</span>
                             </label>
@@ -23,14 +23,14 @@
                                 @endif
                             </select>
                         </div>
-                        <div class="mb-3 col-4">
+                        <div class="mb-3 col-lg-4">
                             <label for="tanggal_bantuan" class="form-label">
                                 Tanggal Bantuan<span class="ms-1 text-danger">*</span>
                             </label>
                             <input type="date" name="tanggal_bantuan" value="{{ date('Y-m-d') }}"
                                 max="{{ date('Y-m-d') }}" class="form-control" required>
                         </div>
-                        <div class="mb-3 col-4">
+                        <div class="mb-3 col-lg-4">
                             <label for="barang" class="form-label">
                                 Barang<span class="ms-1 text-danger">*</span>
                             </label>

@@ -14,6 +14,7 @@ use App\Http\Controllers\LogActivityController;
 use App\Http\Controllers\PendudukController;
 use App\Http\Controllers\PengungsiController;
 use App\Http\Controllers\PoskoController;
+use App\Http\Controllers\RencanaAnggaranController;
 use App\Http\Controllers\UserManagementController;
 use Illuminate\Support\Facades\Route;
 
@@ -43,6 +44,10 @@ Route::group(['middleware' => 'auth.check'], function () {
 
     // Log Activity route
     Route::get('log-activity', [LogActivityController::class, 'index'])->name('log-activity.index');
+
+    //Rencana Anggaran routes
+    Route::resource('rencana-anggaran', RencanaAnggaranController::class);
+    Route::post('rencana-anggaran/bantuan', [RencanaAnggaranController::class, 'bantuan'])->name('rencana-anggaran.bantuan');
 
     //Distribusi Bantuan routes
     Route::resource('distribusi-bantuan', DistribusiBantuanController::class);

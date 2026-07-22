@@ -8,7 +8,7 @@
                 @csrf
                 <div class="card-body">
                     <div class="row">
-                        <div class="mb-3 col-4">
+                        <div class="mb-3 col-lg-4">
                             <label for="donatur" class="form-label">
                                 Donatur
                             </label>
@@ -24,7 +24,7 @@
                                 @endif
                             </select>
                         </div>
-                        <div class="mb-3 col-4">
+                        <div class="mb-3 col-lg-4">
                             <label for="tanggal_bantuan" class="form-label">
                                 Tanggal Bantuan
                             </label>
@@ -32,7 +32,7 @@
                                 value="{{ \Carbon\Carbon::parse($bantuan->TanggalBantuan)->format('Y-m-d') }}"
                                 name="tanggal_bantuan" class="form-control">
                         </div>
-                        <div class="mb-3 col-4">
+                        <div class="mb-3 col-lg-4">
                             <label for="jenis_barang" class="form-label">
                                 Barang
                             </label>

@@ -5,7 +5,7 @@
         <div class="card shadow-sm border-0 w-100">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-12">
+                    <div class="col-lg-12">
                         <table>
                             <tr>
                                 <th style="padding-top: 10px; padding-bottom: 10px;" class="text-left" scope="row">
@@ -43,7 +43,7 @@
                         </table>
                     </div>
                 </div>
-                <div class="col-12 border-top mt-4 mb-3">
+                <div class="col-lg-12 border-top mt-4 mb-3">
                     <h5 class="pt-4">Daftar Barang Bantuan</h5>
                     <div class="table-responsive">
                         <table class="table table-bordered datatable">

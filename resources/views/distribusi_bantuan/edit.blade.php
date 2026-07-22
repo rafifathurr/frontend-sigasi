@@ -9,7 +9,7 @@
                 @csrf
                 <div class="card-body">
                     <div class="row">
-                        <div class="form-group mb-3 col-4">
+                        <div class="form-group mb-3 col-lg-4">
                             <label for="idPosko" class="form-label">
                                 Posko<span class="ms-1 text-danger">*</span>
                             </label>
@@ -26,15 +26,15 @@
                                 @endif
                             </select>
                         </div>
-                        <div class="form-group mb-3 col-4">
-                            <label for="idBantuan" class="form-label">
+                        <div class="form-group mb-3 col-lg-4">
+                            <label for="tanggalDistribusi" class="form-label">
                                 Tanggal Distribusi<span class="ms-1 text-danger">*</span>
                             </label>
                             <input type="date" class="form-control" name="tanggalDistribusi"
                                 value="{{ date('Y-m-d', strtotime($data->distribusi_bantuan->TanggalDistribusi)) }}" max="{{ date('Y-m-d') }}"
                                 required>
                         </div>
-                        <div class="form-group mb-3 col-4">
+                        <div class="form-group mb-3 col-lg-4">
                             <label for="idBantuan" class="form-label">
                                 Bantuan<span class="ms-1 text-danger">*</span>
                             </label>
@@ -52,14 +52,14 @@
                                 @endif
                             </select>
                         </div>
-                        <div class="form-group mb-3 col-12">
-                            <label for="alamat" class="form-label">
+                        <div class="form-group mb-3 col-lg-12">
+                            <label for="deskripsi" class="form-label">
                                 Deskripsi
                             </label>
                             <textarea class="form-control" name="deskripsi" rows="3">{{ $data->distribusi_bantuan->Deskripsi }}</textarea>
                         </div>
                     </div>
-                    <div class="col-12 border-top mt-4 mb-3">
+                    <div class="col-lg-12 border-top mt-4 mb-3">
                         <div class="d-flex flex-row justify-content-between my-4">
                             <h5 class="fw-medium">Daftar Detail Bantuan</h5>
                         </div>
@@ -122,7 +122,7 @@
                                     $row.append($('<td>').text(item.barang.NamaBarang));
                                     $row.append($('<td>').text(item.barang.jenis_barang
                                         .JenisBarang));
-                                    $row.append($('<td align+="right">').text(item.Jumlah));
+                                    $row.append($('<td align="right">').text(item.Jumlah));
                                     $('#productBody').append($row);
                                 });
                             },

@@ -7,7 +7,7 @@
                 @method('PUT')
                 @csrf
                 <div class="card-body">
-                    <div class="form-group mb-3 col-12">
+                    <div class="form-group mb-3 col-lg-12">
                         <label for="idPosko" class="form-label">
                             Posko<span class="ms-1 text-danger">*</span>
                         </label>
@@ -24,7 +24,7 @@
                             @endif
                         </select>
                     </div>
-                    <div class="form-group mb-3 col-12">
+                    <div class="form-group mb-3 col-lg-12">
                         <label for="idPenduduk" class="form-label">
                             Penduduk<span class="ms-1 text-danger">*</span>
                         </label>
@@ -41,7 +41,7 @@
                             @endif
                         </select>
                     </div>
-                    <div class="form-group mb-3 col-12">
+                    <div class="form-group mb-3 col-lg-12">
                         <label for="condition" class="form-label">
                             Kondisi<span class="ms-1 text-danger">*</span>
                         </label>

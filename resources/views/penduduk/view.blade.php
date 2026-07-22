@@ -5,19 +5,19 @@
         <div class="card shadow-sm border-0 w-100">
             <div class="card-body">
                 <div class="row">
-                    <div class="form-group mb-3 col-6">
+                    <div class="form-group mb-3 col-lg-6">
                         <label class="form-label">
                             Nomor KTP
                         </label>
                         <input type="number" disabled value="{{ $penduduk->KTP }}" class="form-control" name="ktp">
                     </div>
-                    <div class="form-group mb-3 col-6">
+                    <div class="form-group mb-3 col-lg-6">
                         <label class="form-label">
                             Nama Lengkap
                         </label>
                         <input type="text" disabled value="{{ $penduduk->Nama }}" class="form-control" name="nama">
                     </div>
-                    <div class="form-group mb-3 col-6">
+                    <div class="form-group mb-3 col-lg-6">
                         <label class="form-label">
                             Jenis Kelamin
                         </label>
@@ -27,14 +27,14 @@
                             <input type="text" disabled value="Perempuan" class="form-control" name="nama">
                         @endif
                     </div>
-                    <div class="form-group mb-3 col-6">
+                    <div class="form-group mb-3 col-lg-6">
                         <label class="form-label">
                             Kelompok
                         </label>
                         <input type="text" disabled value="{{ $penduduk->kelompok->NamaKelompok }}" class="form-control"
                             name="tanggal_lahir">
                     </div>
-                    <div class="form-group mb-3 col-6">
+                    <div class="form-group mb-3 col-lg-6">
                         <label class="form-label">
                             Tanggal Lahir
                         </label>
@@ -42,13 +42,13 @@
                             value="{{ \Carbon\Carbon::parse($penduduk->TanggalLahir)->format('Y-m-d') }}"
                             class="form-control" name="tanggal_lahir">
                     </div>
-                    <div class="form-group mb-3 col-6">
+                    <div class="form-group mb-3 col-lg-6">
                         <label class="form-label">
                             Desa
                         </label>
                         <input type="text" disabled value="{{ $penduduk->Desa }}" class="form-control" name="desa">
                     </div>
-                    <div class="form-group mb-3 col-12">
+                    <div class="form-group mb-3 col-lg-12">
                         <label class="form-label">
                             Alamat Lengkap
                         </label>

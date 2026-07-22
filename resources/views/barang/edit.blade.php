@@ -8,14 +8,14 @@
                 @csrf
                 <div class="card-body">
                     <div class="row">
-                        <div class="form-group mb-3 col-6">
+                        <div class="form-group mb-3 col-lg-6">
                             <label for="nama_barang" class="form-label">
                                 Nama Barang<span class="ms-1 text-danger">*</span>
                             </label>
                             <input value="{{ $barang->NamaBarang }}" type="text" class="form-control" name="nama_barang"
                                 required>
                         </div>
-                        <div class="form-group mb-3 col-6">
+                        <div class="form-group mb-3 col-lg=6">
                             <label for="harga_satuan" class="form-label">
                                 Harga Satuan (Rp.)<span class="ms-1 text-danger">*</span>
                             </label>

@@ -9,18 +9,18 @@
                 @csrf
                 <div class="card-body">
                     <div class="row">
-                        <div class="form-group mb-3 col-6">
+                        <div class="form-group mb-3 col-lg-6">
                             <label for="ktp" class="form-label">Nomor KTP<span class="ms-1 text-danger">*</span></label>
                             <input type="number" value="{{ $penduduk->KTP }}" class="form-control" name="ktp"
                                 id="ktp" required>
                         </div>
-                        <div class="form-group mb-3 col-6">
+                        <div class="form-group mb-3 col-lg-6">
                             <label for="nama" class="form-label">Nama Lengkap<span
                                     class="ms-1 text-danger">*</span></label>
                             <input type="text" value="{{ $penduduk->Nama }}" class="form-control" name="nama"
                                 id="nama" required>
                         </div>
-                        <div class="form-group mb-3 col-6">
+                        <div class="form-group mb-3 col-lg-6">
                             <label for="jenis_kelamin" class="form-label">Jenis Kelamin<span
                                     class="ms-1 text-danger">*</span></label>
                             <select class="w-100 select2" name="jenis_kelamin" required>
@@ -31,7 +31,7 @@
                                     Perempuan</option>
                             </select>
                         </div>
-                        <div class="form-group mb-3 col-6">
+                        <div class="form-group mb-3 col-lg-6">
                             <label for="kelompok" class="form-label">Kelompok<span class="ms-1 text-danger">*</span></label>
                             <select class="w-100 select2" name="kelompok" required>
                                 @if (empty($kelompoks))
@@ -47,20 +47,20 @@
                                 @endif
                             </select>
                         </div>
-                        <div class="form-group mb-3 col-6">
+                        <div class="form-group mb-3 col-lg-6">
                             <label for="tanggal_lahir" class="form-label">Tanggal Lahir<span
                                     class="ms-1 text-danger">*</span></label>
                             <input type="date"
                                 value="{{ \Carbon\Carbon::parse($penduduk->TanggalLahir)->format('Y-m-d') }}"
                                 class="form-control" name="tanggal_lahir" id="tanggal_lahir" required>
                         </div>
-                        <div class="form-group mb-3 col-6">
+                        <div class="form-group mb-3 col-lg-6">
                             <label for="desa" class="form-label">Desa<span class="ms-1 text-danger">*</span></label>
                             <input type="text" value="{{ $penduduk->Desa }}" class="form-control" name="desa"
                                 id="desa" required>
                         </div>
                     </div>
-                    <div class="form-group mb-3 col-12">
+                    <div class="form-group mb-3 col-lg-12">
                         <label for="alamat" class="form-label">Alamat Lengkap<span
                                 class="ms-1 text-danger">*</span></label>
                         <textarea class="form-control" name="alamat" id="alamat" rows="3" required>{{ $penduduk->Alamat }}</textarea>

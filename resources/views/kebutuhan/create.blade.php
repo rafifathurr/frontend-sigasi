@@ -7,7 +7,7 @@
                 @csrf
                 <div class="card-body">
                     <div class="row">
-                        <div class="form-group mb-3 col-12">
+                        <div class="form-group mb-3 col-lg-12">
                             <label for="idPosko" class="form-label">
                                 Posko<span class="ms-1 text-danger">*</span>
                             </label>
@@ -26,7 +26,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-12 border-top mt-4 mb-3">
+                    <div class="col-lg-12 border-top mt-4 mb-3">
                         <div class="d-flex flex-row justify-content-between my-4">
                             <h5 class="fw-medium">Daftar Barang</h5>
                             <button type="button" class="btn btn-primary" id="btnAddRow">

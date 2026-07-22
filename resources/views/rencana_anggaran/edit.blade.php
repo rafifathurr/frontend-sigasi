@@ -1,13 +1,15 @@
 @extends('layout.main')
 @section('content')
     <div class="container-fluid px-0">
-        <h4 class="fw-bold py-3"><span class="text-muted fw-light">Kebutuhan /</span> Tambah Kebutuhan</h4>
+        <h4 class="fw-bold py-3"><span class="text-muted fw-light">Distribusi Bantuan /</span> Edit Distribusi Bantuan</h4>
         <div class="card shadow-sm border-0 w-100">
-            <form action="{{ route('distribusi-bantuan.store') }}" method="POST" id="form-submit">
+            <form action="{{ route('distribusi-bantuan.update', $data->distribusi_bantuan->IDDistribusiBantuan) }}"
+                method="POST" id="form-submit">
+                @method('PUT')
                 @csrf
                 <div class="card-body">
                     <div class="row">
-                        <div class="form-group mb-3 col-lg-4">
+                        <div class="form-group mb-3 col-4">
                             <label for="idPosko" class="form-label">
                                 Posko<span class="ms-1 text-danger">*</span>
                             </label>
@@ -17,20 +19,22 @@
                                 @else
                                     <option hidden value="">-- Pilih Posko --</option>
                                     @foreach ($data->poskos as $item)
-                                        <option value="{{ $item->IDPosko }}">
+                                        <option value="{{ $item->IDPosko }}"
+                                            {{ $item->IDPosko == $data->distribusi_bantuan->IDPosko ? 'selected' : '' }}>
                                             {{ $item->user->name }}</option>
                                     @endforeach
                                 @endif
                             </select>
                         </div>
-                        <div class="form-group mb-3 col-lg-4">
-                            <label for="tanggalDistribusi" class="form-label">
+                        <div class="form-group mb-3 col-4">
+                            <label for="idBantuan" class="form-label">
                                 Tanggal Distribusi<span class="ms-1 text-danger">*</span>
                             </label>
-                            <input type="date" class="form-control" name="tanggalDistribusi" value="{{ date('Y-m-d') }}"
-                                max="{{ date('Y-m-d') }}" required>
+                            <input type="date" class="form-control" name="tanggalDistribusi"
+                                value="{{ date('Y-m-d', strtotime($data->distribusi_bantuan->TanggalDistribusi)) }}" max="{{ date('Y-m-d') }}"
+                                required>
                         </div>
-                        <div class="form-group mb-3 col-lg-4">
+                        <div class="form-group mb-3 col-4">
                             <label for="idBantuan" class="form-label">
                                 Bantuan<span class="ms-1 text-danger">*</span>
                             </label>
@@ -40,21 +44,22 @@
                                 @else
                                     <option hidden value="">-- Pilih Bantuan --</option>
                                     @foreach ($data->bantuans as $item)
-                                        <option value="{{ $item->IDBantuan }}">
+                                        <option value="{{ $item->IDBantuan }}"
+                                            {{ $item->IDBantuan == $data->distribusi_bantuan->IDBantuan ? 'selected' : '' }}>
                                             {{ $item->donatur->NamaPerusahaan }} -
                                             {{ date('d F Y', strtotime($item->TanggalBantuan)) }}</option>
                                     @endforeach
                                 @endif
                             </select>
                         </div>
-                        <div class="form-group mb-3 col-lg-12">
-                            <label for="deskripsi" class="form-label">
+                        <div class="form-group mb-3 col-12">
+                            <label for="alamat" class="form-label">
                                 Deskripsi
                             </label>
-                            <textarea class="form-control" name="deskripsi" rows="3"></textarea>
+                            <textarea class="form-control" name="deskripsi" rows="3">{{ $data->distribusi_bantuan->Deskripsi }}</textarea>
                         </div>
                     </div>
-                    <div class="col-lg-12 border-top mt-4 mb-3">
+                    <div class="col-12 border-top mt-4 mb-3">
                         <div class="d-flex flex-row justify-content-between my-4">
                             <h5 class="fw-medium">Daftar Detail Bantuan</h5>
                         </div>
@@ -69,13 +74,21 @@
                                     </tr>
                                 </thead>
                                 <tbody id="productBody">
+                                    @foreach ($data->distribusi_bantuan->bantuan->bantuan_detail as $item)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $item->barang->NamaBarang }}</td>
+                                            <td>{{ $item->barang->jenis_barang->JenisBarang }}</td>
+                                            <td align="right">{{ $item->Jumlah }}</td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
                 <div class="card-footer d-flex flex-row justify-content-end align-items-center gap-2 pb-3 pt-0">
-                    <a class="btn btn-secondary text-white" href="{{ route('distribusi-bantuan.index') }}">
+                    <a class="btn btn-secondary text-white" href="{{ route('rencana-anggaran.index') }}">
                         <i class="fa fa-arrow-left me-2"></i>
                         Kembali
                     </a>
@@ -109,7 +122,7 @@
                                     $row.append($('<td>').text(item.barang.NamaBarang));
                                     $row.append($('<td>').text(item.barang.jenis_barang
                                         .JenisBarang));
-                                    $row.append($('<td align="right">').text(item.Jumlah));
+                                    $row.append($('<td align+="right">').text(item.Jumlah));
                                     $('#productBody').append($row);
                                 });
                             },

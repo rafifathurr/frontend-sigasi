@@ -5,7 +5,7 @@
         <div class="card shadow-sm border-0 w-100">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-lg-6">
                         <table>
                             <tr>
                                 <th style="padding-top: 10px; padding-bottom: 10px;" class="text-left" scope="row">
@@ -42,7 +42,7 @@
                             </tr>
                         </table>
                     </div>
-                    <div class="col-6">
+                    <div class="col-lg-6">
                         <table>
                             <tr>
                                 <th style="padding-top: 10px; padding-bottom: 10px;" class="text-left" scope="row">
