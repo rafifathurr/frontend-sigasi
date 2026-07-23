@@ -80,13 +80,13 @@
                                             {{ $item->barang->jenis_barang->JenisBarang }}
                                         </td>
                                         <td align="right">
-                                            {{ 'Rp.' . number_format($item->barang->HargaSatuan, 0, ',', '.') }}
+                                            {{ 'Rp.' . number_format($item->HargaSatuan, 0, ',', '.') }}
                                         </td>
                                         <td align="right">
                                             {{ number_format($item->Jumlah, 0, ',', '.') }}
                                         </td>
                                         <td align="right">
-                                            {{ 'Rp' . number_format(intval($item->barang->HargaSatuan) * intval($item->Jumlah), 0, ',', '.') }}
+                                            {{ 'Rp' . number_format(intval($item->HargaSatuan) * intval($item->Jumlah), 0, ',', '.') }}
                                         </td>
                                     </tr>
                                 @endforeach

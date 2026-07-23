@@ -117,8 +117,9 @@ class RencanaAnggaranController extends Controller
         $response = Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/rencana-anggaran/create-edit', ['id' => $id]);
         $response_body = json_decode($response->getBody());
         $data = $response_body->data;
+        $bantuan_ids = array_unique(collect($data->rencana_anggaran->rencana_anggaran_items)->pluck('IDBantuan')->toArray());
 
-        return view('rencana_anggaran.edit', compact('title', 'data'));
+        return view('rencana_anggaran.edit', compact('title', 'data', 'bantuan_ids'));
     }
 
     /**
