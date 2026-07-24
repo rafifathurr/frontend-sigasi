@@ -71,7 +71,7 @@
                                             {{ $loop->iteration }}
                                         </td>
                                         <td>
-                                            {{ $item->bantuan->donatur->NamaPerusahaan . ' - ' . date('d F Y', strtotime($item->bantuan->TanggalBantuan)) }}
+                                            <a href="{{ route('bantuan.show', $item->bantuan->IDBantuan) }}" target="_blank">{{ $item->bantuan->donatur->NamaPerusahaan . ' - ' . date('d F Y', strtotime($item->bantuan->TanggalBantuan)) }}</a>
                                         </td>
                                         <td>
                                             {{ $item->barang->NamaBarang }}
