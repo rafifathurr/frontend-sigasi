@@ -116,7 +116,7 @@
                             },
                             success: function(response) {
                                 $('#productBody').empty();
-                                response.bantuan_detail.forEach(function(item, index) {
+                                response.forEach(function(item, index) {
                                     const $row = $('<tr>');
                                     $row.append($('<td>').text(index + 1));
                                     $row.append($('<td>').text(item.barang.NamaBarang));

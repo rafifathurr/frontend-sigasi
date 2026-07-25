@@ -76,12 +76,12 @@ class DistribusiBantuanController extends Controller
 
     public function bantuan(Request $request)
     {
-        $url_request = env('API_URL') . 'api/bantuan';
+        $url_request = env('API_URL') . 'api/distribusi-bantuan/bantuan';
 
         $bantuan = [];
 
         if ($request->bantuan_id) {
-            $response =  Http::withToken(session('jwt_token'))->get("{$url_request}/show/{$request->bantuan_id}", []);
+            $response =  Http::withToken(session('jwt_token'))->get("{$url_request}/{$request->bantuan_id}", []);
             $response_body = json_decode($response->getBody());
             $bantuan = $response_body->data;
         } else {
