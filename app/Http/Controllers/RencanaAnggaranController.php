@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\RencanaAnggaran\RencanaAnggaranExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\DataTables;
 
 class RencanaAnggaranController extends Controller
@@ -148,5 +150,18 @@ class RencanaAnggaranController extends Controller
         }
 
         return redirect()->back()->with('error', "Internal server error.")->withInput();
+    }
+
+    /**
+     * Export Stock.
+     */
+    public function export()
+    {
+        $params['all'] = 1;
+
+        $response = Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/rencana-anggaran', $params);
+        $response_body = json_decode($response->getBody(), true);
+
+        return Excel::download(new RencanaAnggaranExport($response_body), 'Laporan_Rencana_Anggaran_' . strtotime(date('Y-m-d H:i:s')) . '.xlsx');
     }
 }

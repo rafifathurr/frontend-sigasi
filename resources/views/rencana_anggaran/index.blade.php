@@ -5,10 +5,16 @@
         <div class="card shadow-sm border-0 w-100">
             <div class="card-body">
                 @if ($access['can_create'])
-                    <div class="row pt-2 pb-4 align-items-end">
-                        <div class="col-lg-3">
+                    <div class="d-flex flex-column flex-md-row justify-content-start py-2">
+                        <div class="p-1 p-lg-0 px-0 pe-lg-2">
                             <a href="{{ route('rencana-anggaran.create') }}" class="btn btn-primary ms-auto"><i
                                     class="fa fa-plus me-2"></i>Tambah</a>
+                        </div>
+                        <div class="p-1 p-lg-0 px-0 pe-lg-2">
+                            <a href="{{ route('rencana-anggaran.export') }}"
+                                class="btn btn-success d-flex justify-content-center align-items-center" target="_blank">
+                                <i class="fa fa-file-excel-o me-2"></i>Export Excel
+                            </a>
                         </div>
                     </div>
                 @endif
@@ -18,7 +24,7 @@
                             <tr>
                                 <th width="5%">No</th>
                                 <th>Tanggal Rencana</th>
-                                <th>Nilai Anggaran</th>
+                                <th>Nilai Anggaran (Rp.)</th>
                                 <th>Keterangan</th>
                                 <th>Disusun Oleh</th>
                                 <th>Tanggal Disusun</th>

@@ -48,6 +48,7 @@ Route::group(['middleware' => 'auth.check'], function () {
     //Rencana Anggaran routes
     Route::resource('rencana-anggaran', RencanaAnggaranController::class);
     Route::post('rencana-anggaran/bantuan', [RencanaAnggaranController::class, 'bantuan'])->name('rencana-anggaran.bantuan');
+    Route::get('rencana-anggaran-export', [RencanaAnggaranController::class, 'export'])->name('rencana-anggaran.export');
 
     //Distribusi Bantuan routes
     Route::resource('distribusi-bantuan', DistribusiBantuanController::class);
