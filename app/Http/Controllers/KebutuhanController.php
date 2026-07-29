@@ -50,7 +50,9 @@ class KebutuhanController extends Controller
             $response_body = json_decode($response->getBody(), true);
 
             return DataTables::of($response_body['data'])
-                ->addIndexColumn()
+                ->addIndexColumn()->addColumn('TanggalKebutuhan', function ($data) {
+                    return date('d F Y', strtotime($data['TanggalKebutuhan']));
+                })
                 ->addColumn('LastUpdateDate', function ($data) {
                     return date('d F Y H:i:s', strtotime($data['LastUpdateDate']));
                 })

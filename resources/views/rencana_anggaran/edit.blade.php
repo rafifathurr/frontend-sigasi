@@ -30,19 +30,20 @@
                             </div>
                         </div>
                         <div class="form-group mb-3 col-lg-4">
-                            <label for="IDBantuan" class="form-label">
-                                Bantuan<span class="ms-1 text-danger">*</span>
+                            <label for="IDKebutuhan" class="form-label">
+                                Kebutuhan<span class="ms-1 text-danger">*</span>
                             </label>
-                            <select class="w-100 select2" name="IDBantuan[]" id="IDBantuan" multiple="multiple" required>
-                                @if (empty($data->bantuans))
+                            <select class="w-100 select2" name="IDKebutuhan[]" id="IDKebutuhan" multiple="multiple" required>
+                                @if (empty($data->kebutuhans))
                                     <option hidden value="">Data Tidak ada</option>
                                 @else
-                                    <option hidden value="">-- Pilih Bantuan --</option>
-                                    @foreach ($data->bantuans as $item)
-                                        <option value="{{ $item->IDBantuan }}"
-                                            {{ in_array($item->IDBantuan, $bantuan_ids) ? 'selected' : '' }}>
-                                            {{ $item->donatur->NamaPerusahaan }} -
-                                            {{ date('d F Y', strtotime($item->TanggalBantuan)) }}</option>
+                                    <option hidden value="">-- Pilih Kebutuhan --</option>
+                                    @foreach ($data->kebutuhans as $item)
+                                        <option value="{{ $item->IDKebutuhan }}"
+                                            {{ in_array($item->IDKebutuhan, $kebutuhan_ids) ? 'selected' : '' }}>
+                                            {{ $item->JudulKebutuhan }} -
+                                            {{ $item->posko->user->name }} -
+                                            {{ date('d F Y', strtotime($item->TanggalKebutuhan)) }}</option>
                                     @endforeach
                                 @endif
                             </select>
@@ -56,14 +57,14 @@
                     </div>
                     <div class="col-12 border-top mt-4 mb-3">
                         <div class="d-flex flex-row justify-content-between my-4">
-                            <h5 class="fw-medium">Daftar Detail Barang Bantuan</h5>
+                            <h5 class="fw-medium">Daftar Detail Barang Kebutuhan</h5>
                         </div>
                         <div class="table-responsive">
                             <table class="table table-bordered table-hover" id="productTable">
                                 <thead>
                                     <tr>
                                         <th width="5%">No</th>
-                                        <th>Bantuan</th>
+                                        <th>Kebutuhan</th>
                                         <th>Nama Barang</th>
                                         <th>Jenis Barang</th>
                                         <th width="15%">Harga Satuan</th>
@@ -78,19 +79,19 @@
                                     @endphp
                                     @foreach ($data->rencana_anggaran->rencana_anggaran_items as $item)
                                         @php
-                                            $total += intval($item->barang->HargaSatuan) * intval($item->Jumlah);
+                                            $total += intval($item->HargaSatuan) * intval($item->Jumlah);
                                         @endphp
                                         <tr>
                                             <td>
                                                 <input type="hidden" name="barang[{{ $loop->iteration - 1 }}][IDBarang]"
                                                     value="{{ $item->barang->IDBarang }}">
                                                 <input type="hidden"
-                                                    name="barang[{{ $loop->iteration - 1 }}][IDBantuan]"
-                                                    value="{{ $item->IDBantuan }}">
+                                                    name="barang[{{ $loop->iteration - 1 }}][IDKebutuhan]"
+                                                    value="{{ $item->IDKebutuhan }}">
                                                 {{ $loop->iteration }}
                                             </td>
                                             <td>
-                                                {{ $item->bantuan->donatur->NamaPerusahaan . ' - ' . date('d F Y', strtotime($item->bantuan->TanggalBantuan)) }}
+                                                {{ $item->kebutuhan->JudulKebutuhan . ' - ' . $item->kebutuhan->posko->user->name . ' - ' . date('d F Y', strtotime($item->kebutuhan->TanggalKebutuhan)) }}
                                             </td>
                                             <td>
                                                 {{ $item->barang->NamaBarang }}
@@ -108,15 +109,15 @@
                                                 <input type="number" class="form-control text-end"
                                                     name="barang[{{ $loop->iteration - 1 }}][Jumlah]"
                                                     value="{{ $item->Jumlah }}" min="0" style="min-wigth:50px;"
-                                                    oninput="adjustTotalItem(this, '{{ $item->IDBantuan . '-' . $item->IDBarang }}', {{ $item->HargaSatuan }})"
+                                                    oninput="adjustTotalItem(this, '{{ $item->IDKebutuhan . '-' . $item->IDBarang }}', {{ $item->HargaSatuan }})"
                                                     required>
                                             </td>
                                             <td align="right">
                                                 <input type="hidden" name="barang[{{ $loop->iteration - 1 }}][Total]"
                                                     value="{{ intval($item->HargaSatuan) * intval($item->Jumlah) }}"
-                                                    id="total-barang-{{ $item->IDBantuan . '-' . $item->IDBarang }}">
+                                                    id="total-barang-{{ $item->IDKebutuhan . '-' . $item->IDBarang }}">
                                                 Rp.<span
-                                                    id="total-barang-{{ $item->IDBantuan . '-' . $item->IDBarang }}-text">
+                                                    id="total-barang-{{ $item->IDKebutuhan . '-' . $item->IDBarang }}-text">
                                                     {{ number_format(intval($item->HargaSatuan) * intval($item->Jumlah), 0, ',', '.') }}
                                                 </span>
                                             </td>
@@ -155,16 +156,16 @@
         <script>
             let listTable;
 
-            $('#IDBantuan').on('change', function() {
-                const idBantuan = $(this).val();
+            $('#IDKebutuhan').on('change', function() {
+                const idKebutuhan = $(this).val();
 
-                if (idBantuan.length > 0) {
+                if (idKebutuhan.length > 0) {
 
                     $.ajax({
-                        url: "{{ route('rencana-anggaran.bantuan') }}",
+                        url: "{{ route('rencana-anggaran.kebutuhan') }}",
                         type: "POST",
                         data: {
-                            bantuans: idBantuan,
+                            kebutuhans: idKebutuhan,
                             _token: "{{ csrf_token() }}"
                         },
                         success: function(response) {
@@ -174,95 +175,94 @@
 
                             response.forEach(function(record, indexRecord) {
 
-                                record.bantuan_detail.forEach(function(item, index) {
+                                totalPrice += parseInt(record.barang
+                                    .HargaSatuan) * parseInt(
+                                    record.JumlahKebutuhan);
 
-                                    totalPrice += parseInt(item.barang
-                                        .HargaSatuan) * parseInt(
-                                        item.Jumlah);
+                                const $row = $('<tr>');
 
-                                    const $row = $('<tr>');
+                                $row.append($(
+                                    '<td><input type="hidden" name="barang[' +
+                                    (rowNum - 1) +
+                                    '][IDBarang]" value="' +
+                                    record.barang.IDBarang +
+                                    '"><input type="hidden" name="barang[' +
+                                    (rowNum - 1) +
+                                    '][IDKebutuhan]" value="' +
+                                    record.IDKebutuhan + '">' +
+                                    rowNum + '</td>'));
 
-                                    $row.append($(
-                                        '<td><input type="hidden" name="barang[' +
-                                        (rowNum - 1) +
-                                        '][IDBarang]" value="' +
-                                        item.barang.IDBarang +
-                                        '"><input type="hidden" name="barang[' +
-                                        (rowNum - 1) +
-                                        '][IDBantuan]" value="' +
-                                        record.IDBantuan + '">' +
-                                        rowNum + '</td>'));
+                                $row.append($('<td>').text(record.JudulKebutuhan +
+                                    ' - ' +
+                                    record.posko.user.name +
+                                    ' - ' +
+                                    new Date(record.TanggalKebutuhan)
+                                    .toLocaleDateString('en-GB', {
+                                        day: '2-digit',
+                                        month: 'long',
+                                        year: 'numeric'
+                                    })));
 
-                                    $row.append($('<td>').text(record.donatur
-                                        .NamaPerusahaan + ' - ' +
-                                        new Date(record.TanggalBantuan)
-                                        .toLocaleDateString('en-GB', {
-                                            day: '2-digit',
-                                            month: 'long',
-                                            year: 'numeric'
-                                        })));
+                                $row.append($('<td>').text(record.barang
+                                    .NamaBarang));
 
-                                    $row.append($('<td>').text(item.barang
-                                        .NamaBarang));
+                                $row.append($('<td>').text(record.barang
+                                    .jenis_barang
+                                    .JenisBarang));
 
-                                    $row.append($('<td>').text(item.barang
-                                        .jenis_barang
-                                        .JenisBarang));
+                                $row.append($(
+                                    '<td align="right"><input type="hidden" name="barang[' +
+                                    (rowNum - 1) +
+                                    '][HargaSatuan]" value="' +
+                                    record.barang
+                                    .HargaSatuan + '">' +
+                                    'Rp.' + currencyFormat(record
+                                        .barang
+                                        .HargaSatuan) + '</td>'));
 
-                                    $row.append($(
-                                        '<td align="right"><input type="hidden" name="barang[' +
-                                        (rowNum - 1) +
-                                        '][HargaSatuan]" value="' +
-                                        item.barang
-                                        .HargaSatuan + '">' +
-                                        'Rp.' + currencyFormat(item
-                                            .barang
-                                            .HargaSatuan) + '</td>'));
+                                $row.append($(
+                                    '<td align="right"><input type="number" class="form-control text-end" name="barang[' +
+                                    (rowNum - 1) +
+                                    '][Jumlah]" value="' +
+                                    record.JumlahKebutuhan +
+                                    '" min="0" style="min-wigth:50px;" oninput="adjustTotalItem(this, ' +
+                                    "'" + record.IDKebutuhan + '-' +
+                                    record.barang.IDBarang + "'" +
+                                    ', ' + record.barang
+                                    .HargaSatuan +
+                                    ')" required></td>'
+                                ));
 
-                                    $row.append($(
-                                        '<td align="right"><input type="number" class="form-control text-end" name="barang[' +
-                                        (rowNum - 1) +
-                                        '][Jumlah]" value="' +
-                                        item.Jumlah +
-                                        '" min="0" style="min-wigth:50px;" oninput="adjustTotalItem(this, ' +
-                                        "'" + record.IDBantuan + '-' +
-                                        item.barang.IDBarang + "'" +
-                                        ', ' + item.barang
-                                        .HargaSatuan +
-                                        ')" required></td>'
-                                    ));
-
-                                    $row.append($(
-                                        '<td align="right"><input type="hidden" name="barang[' +
-                                        (rowNum - 1) +
-                                        '][Total]" value="' +
-                                        parseInt(item
+                                $row.append($(
+                                    '<td align="right"><input type="hidden" name="barang[' +
+                                    (rowNum - 1) +
+                                    '][Total]" value="' +
+                                    parseInt(record
+                                        .barang
+                                        .HargaSatuan) *
+                                    parseInt(
+                                        record.JumlahKebutuhan) +
+                                    '" id="total-barang-' +
+                                    record.IDKebutuhan + '-' +
+                                    record.barang.IDBarang +
+                                    '">Rp.<span id="total-barang-' +
+                                    record.IDKebutuhan + '-' +
+                                    record.barang.IDBarang +
+                                    '-text">' +
+                                    currencyFormat(parseInt(record
                                             .barang
                                             .HargaSatuan) *
                                         parseInt(
-                                            item.Jumlah) +
-                                        '" id="total-barang-' +
-                                        record.IDBantuan + '-' +
-                                        item.barang.IDBarang +
-                                        '">Rp.<span id="total-barang-' +
-                                        record.IDBantuan + '-' +
-                                        item.barang.IDBarang +
-                                        '-text">' +
-                                        currencyFormat(parseInt(item
-                                                .barang
-                                                .HargaSatuan) *
-                                            parseInt(
-                                                item.Jumlah)) +
-                                        '</span></td>'));
+                                            record.JumlahKebutuhan)) +
+                                    '</span></td>'));
 
-                                    $row.append($(
-                                        '<td align="center"><button class="btn btn-danger btn-icon btn-remove"><i class="fa fa-trash"></i></button></td>'
-                                    ));
+                                $row.append($(
+                                    '<td align="center"><button class="btn btn-danger btn-icon btn-remove"><i class="fa fa-trash"></i></button></td>'
+                                ));
 
-                                    $('#productBody').append($row);
+                                $('#productBody').append($row);
 
-                                    rowNum++;
-                                });
+                                rowNum++;
                             });
 
                             $('#totalHarga').val(totalPrice);
@@ -324,7 +324,7 @@
 
                 if (nilaiAnggaran != '' && totalHarga != '' && (parseInt(totalHarga) > parseInt(nilaiAnggaran))) {
                     errorAlert(
-                        'Total nilai barang bantuan melebihi nilai rencana anggaran, Harap sesuaikan nilai barang bantuan / nilai rencana anggaran kembali!'
+                        'Total nilai barang kebutuhan melebihi nilai rencana anggaran, Harap sesuaikan nilai barang kebutuhan / nilai rencana anggaran kembali!'
                     );
                 }
             }

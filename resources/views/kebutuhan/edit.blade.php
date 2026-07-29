@@ -26,6 +26,22 @@
                         </select>
                     </div>
                     <div class="row">
+                        <div class="form-group mb-3 col-lg-12">
+                            <label for="JudulKebutuhan" class="form-label">
+                                Judul Kebutuhan<span class="ms-1 text-danger">*</span>
+                            </label>
+                            <input type="text" name="JudulKebutuhan" id="JudulKebutuhan" class="form-control" value="{{ $data->kebutuhan->JudulKebutuhan }}" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group mb-3 col-lg-12">
+                            <label for="TanggalKebutuhan" class="form-label">
+                                Tanggal Kebutuhan<span class="ms-1 text-danger">*</span>
+                            </label>
+                            <input type="date" name="TanggalKebutuhan" id="TanggalKebutuhan" class="form-control" value="{{ $data->kebutuhan->TanggalKebutuhan }}" required>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="form-group mb-3 col-lg-4">
                             <label for="idPosko" class="form-label">
                                 Barang<span class="ms-1 text-danger">*</span>
@@ -48,7 +64,7 @@
                                 Jumlah Dibutuhkan<span class="ms-1 text-danger">*</span>
                             </label>
                             <input type="number" class="form-control" min="1" name="qtyRequest"
-                                placeholder="Contoh: 50" value="{{ $data->kebutuhan->JumlahKebutuhan }}" />
+                                placeholder="Contoh: 50" value="{{ $data->kebutuhan->JumlahKebutuhan }}" required/>
                         </div>
                         <div class="form-group mb-3 col-4">
                             <label for="idPosko" class="form-label">

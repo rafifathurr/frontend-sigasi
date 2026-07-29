@@ -44,13 +44,13 @@
                     </div>
                 </div>
                 <div class="col-12 border-top mt-4 mb-3">
-                    <h5 class="pt-4">Daftar Detail Barang Bantuan</h5>
+                    <h5 class="pt-4">Daftar Detail Barang Kebutuhan</h5>
                     <div class="table-responsive">
                         <table class="table table-bordered table-hover" id="productTable">
                             <thead>
                                 <tr>
                                     <th width="5%">No</th>
-                                    <th>Bantuan</th>
+                                    <th>Kebutuhan</th>
                                     <th>Nama Barang</th>
                                     <th>Jenis Barang</th>
                                     <th width="15%">Harga Satuan</th>
@@ -71,7 +71,8 @@
                                             {{ $loop->iteration }}
                                         </td>
                                         <td>
-                                            <a href="{{ route('bantuan.show', $item->bantuan->IDBantuan) }}" target="_blank">{{ $item->bantuan->donatur->NamaPerusahaan . ' - ' . date('d F Y', strtotime($item->bantuan->TanggalBantuan)) }}</a>
+                                            <a href="{{ route('kebutuhan.show', $item->kebutuhan->IDKebutuhan) }}"
+                                                target="_blank">{{ $item->kebutuhan->JudulKebutuhan . ' - ' . $item->kebutuhan->posko->user->name . ' - ' . date('d F Y', strtotime($item->kebutuhan->TanggalKebutuhan)) }}<i class="fa fa-external-link ms-2"></i></a>
                                         </td>
                                         <td>
                                             {{ $item->barang->NamaBarang }}

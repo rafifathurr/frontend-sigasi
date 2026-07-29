@@ -16,6 +16,8 @@
                             <tr>
                                 <th width="5%">No</th>
                                 <th>Posko</th>
+                                <th>Judul Kebutuhan</th>
+                                <th>Tanggal Kebutuhan</th>
                                 <th>Jenis Barang</th>
                                 <th>Barang</th>
                                 <th>Jumlah Dibutuhkan</th>
@@ -50,6 +52,12 @@
                     },
                     {
                         data: 'posko.user.name'
+                    },
+                    {
+                        data: 'JudulKebutuhan'
+                    },
+                     {
+                        data: 'TanggalKebutuhan'
                     },
                     {
                         data: 'barang.NamaBarang'

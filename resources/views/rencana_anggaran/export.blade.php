@@ -26,7 +26,7 @@
                 <th align="center">Tanggal Disusun</th>
                 <th align="center">Diperbarui Oleh</th>
                 <th align="center">Tanggal Diperbarui</th>
-                <th align="center">Bantuan</th>
+                <th align="center">Kebutuhan</th>
                 <th align="center">Nama Barang</th>
                 <th align="center">Jenis Barang</th>
                 <th align="center">Harga Satuan</th>
@@ -87,10 +87,9 @@
                             @endif
 
                             <td>
-                                {{ ($item['bantuan']['donatur']['NamaPerusahaan'] ?? '-') }}
-                                @if(!empty($item['bantuan']['TanggalBantuan']))
-                                    - {{ date('d F Y', strtotime($item['bantuan']['TanggalBantuan'])) }}
-                                @endif
+                                {{ $item['kebutuhan']['JudulKebutuhan'] }}
+                                - {{ $item['kebutuhan']['posko']['user']['name'] }}
+                                - {{ date('d F Y', strtotime($item['kebutuhan']['TanggalKebutuhan'])) }}
                             </td>
 
                             <td>

@@ -26,6 +26,22 @@
                             </select>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="form-group mb-3 col-lg-12">
+                            <label for="JudulKebutuhan" class="form-label">
+                                Judul Kebutuhan<span class="ms-1 text-danger">*</span>
+                            </label>
+                            <input type="text" name="JudulKebutuhan" id="JudulKebutuhan" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group mb-3 col-lg-12">
+                            <label for="TanggalKebutuhan" class="form-label">
+                                Tanggal Kebutuhan<span class="ms-1 text-danger">*</span>
+                            </label>
+                            <input type="date" name="TanggalKebutuhan" id="TanggalKebutuhan" class="form-control" value="{{ date('Y-m-d') }}" required>
+                        </div>
+                    </div>
                     <div class="col-lg-12 border-top mt-4 mb-3">
                         <div class="d-flex flex-row justify-content-between my-4">
                             <h5 class="fw-medium">Daftar Barang</h5>

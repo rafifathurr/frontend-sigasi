@@ -60,19 +60,19 @@ class RencanaAnggaranController extends Controller
         return view('rencana_anggaran.create', compact('title', 'data'));
     }
 
-    public function bantuan(Request $request)
+    public function kebutuhan(Request $request)
     {
-        $url_request = env('API_URL') . 'api/bantuan';
+        $url_request = env('API_URL') . 'api/kebutuhan';
 
         $result = [];
 
-        if ($request->bantuans) {
+        if ($request->kebutuhans) {
 
-            foreach ($request->bantuans as $bantuan_id) {
-                $response =  Http::withToken(session('jwt_token'))->get("{$url_request}/show/{$bantuan_id}", []);
+            foreach ($request->kebutuhans as $kebutuhan_id) {
+                $response =  Http::withToken(session('jwt_token'))->get("{$url_request}/show/{$kebutuhan_id}", []);
                 $response_body = json_decode($response->getBody());
-                $bantuan = $response_body->data;
-                $result[] = $bantuan;
+                $kebutuhan = $response_body->data;
+                $result[] = $kebutuhan;
             }
         } else {
             $response =  Http::withToken(session('jwt_token'))->get("{$url_request}", []);
@@ -119,9 +119,9 @@ class RencanaAnggaranController extends Controller
         $response = Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/rencana-anggaran/create-edit', ['id' => $id]);
         $response_body = json_decode($response->getBody());
         $data = $response_body->data;
-        $bantuan_ids = array_unique(collect($data->rencana_anggaran->rencana_anggaran_items)->pluck('IDBantuan')->toArray());
+        $kebutuhan_ids = array_unique(collect($data->rencana_anggaran->rencana_anggaran_items)->pluck('IDKebutuhan')->toArray());
 
-        return view('rencana_anggaran.edit', compact('title', 'data', 'bantuan_ids'));
+        return view('rencana_anggaran.edit', compact('title', 'data', 'kebutuhan_ids'));
     }
 
     /**
