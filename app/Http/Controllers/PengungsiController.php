@@ -54,7 +54,7 @@ class PengungsiController extends Controller
     public function create()
     {
         $title = 'Tambah Pengungsi';
-        $response =  Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/pengungsi/create-edit', []);
+        $response =  Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/pengungsi/create-edit', []);  
         $response_body = json_decode($response->getBody());
         $data = $response_body->data;
 
@@ -72,7 +72,7 @@ class PengungsiController extends Controller
             $data['idPosko'] = session('posko');
         }
 
-        $response = Http::withToken(session('jwt_token'))->post(env('API_URL') . 'api/pengungsi/store', $request->all());
+        $response = Http::withToken(session('jwt_token'))->post(env('API_URL') . 'api/pengungsi/store', $data);
 
         if ($response->created()) {
             return redirect()->route('pengungsi.index')->with('success', "Data berhasil disimpan.");
