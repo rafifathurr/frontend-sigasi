@@ -74,23 +74,40 @@ class DistribusiBantuanController extends Controller
         return view('distribusi_bantuan.create', compact('title', 'data'));
     }
 
+    public function kebutuhan(Request $request)
+    {
+        $kebutuhan = [];
+
+        if ($request->posko_id) {
+            $response =  Http::withToken(session('jwt_token'))->get(env('API_URL') . "api/kebutuhan/show-posko/{$request->posko_id}", []);
+            $response_body = json_decode($response->getBody());
+            $kebutuhan = $response_body->data;
+        }
+
+        return response()->json($kebutuhan);
+    }
+
     public function bantuan(Request $request)
     {
-        $url_request = env('API_URL') . 'api/distribusi-bantuan/bantuan';
+        $url_request = env('API_URL') . 'api/bantuan';
 
-        $bantuan = [];
+        $result = [];
 
-        if ($request->bantuan_id) {
-            $response =  Http::withToken(session('jwt_token'))->get("{$url_request}/{$request->bantuan_id}", []);
-            $response_body = json_decode($response->getBody());
-            $bantuan = $response_body->data;
+        if ($request->bantuans) {
+
+            foreach ($request->bantuans as $bantuan_id) {
+                $response =  Http::withToken(session('jwt_token'))->get("{$url_request}/show/{$bantuan_id}", []);
+                $response_body = json_decode($response->getBody());
+                $bantuan = $response_body->data;
+                $result[] = $bantuan;
+            }
         } else {
             $response =  Http::withToken(session('jwt_token'))->get("{$url_request}", []);
             $response_body = json_decode($response->getBody());
-            $bantuan = $response_body->data;
+            $result = $response_body->data;
         }
 
-        return response()->json($bantuan);
+        return response()->json($result);
     }
 
     /**
@@ -129,8 +146,9 @@ class DistribusiBantuanController extends Controller
         $response = Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/distribusi-bantuan/create-edit', ['id' => $id]);
         $response_body = json_decode($response->getBody());
         $data = $response_body->data;
+        $bantuan_ids = array_unique(collect($data->distribusi_bantuan->distribusi_bantuan_items)->pluck('IDBantuan')->toArray());
 
-        return view('distribusi_bantuan.edit', compact('title', 'data'));
+        return view('distribusi_bantuan.edit', compact('title', 'data', 'bantuan_ids'));
     }
 
     /**

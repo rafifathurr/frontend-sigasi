@@ -17,7 +17,6 @@
                         <thead>
                             <tr>
                                 <th width="5%">No</th>
-                                <th>Donatur</th>
                                 <th>Tujuan Posko</th>
                                 <th>Tanggal Distribusi</th>
                                 <th>Deskripsi</th>
@@ -47,9 +46,6 @@
                             render: function(data, type, row, meta) {
                                 return meta.settings._iDisplayStart + meta.row + 1;
                             }
-                        },
-                        {
-                            data: 'bantuan.donatur.NamaPerusahaan'
                         },
                         {
                             data: 'posko.user.name'
@@ -117,9 +113,6 @@
                             render: function(data, type, row, meta) {
                                 return meta.settings._iDisplayStart + meta.row + 1;
                             }
-                        },
-                        {
-                            data: 'bantuan.donatur.NamaPerusahaan'
                         },
                         {
                             data: 'posko.user.name'

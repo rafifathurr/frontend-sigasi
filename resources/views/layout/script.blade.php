@@ -11,10 +11,12 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i
                         class="fa fa-arrow-left me-2"></i>Kembali</button>
-                <form action="" method="post">
+                <form action="" method="post" id="form-delete">
                     @method('DELETE')
                     @csrf
-                    <button type="sumbit" class="btn btn-danger"><i class="fa fa-trash me-2"></i>Delete</button>
+                    <button type="button" onclick="formDelete('form-delete')"
+                        class="btn btn-danger d-flex justify-content-center align-items-center"><i
+                            class="fa fa-trash me-2"></i>Delete</button>
                 </form>
             </div>
         </div>
@@ -92,6 +94,12 @@
             });
         }
 
+    }
+
+    function formDelete(idForm) {
+        $('#' + idForm).find(':input[type="button"][onclick^="formDelete"]').attr('disabled', true)
+                    .html('<div class="spinner-border me-2"></div><span>Loading</span>');
+        $('#' + idForm).submit();
     }
 
     // Hit Delete Record Require String URL, Object Attribute and Boolean isCallback

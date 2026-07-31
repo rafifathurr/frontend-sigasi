@@ -9,17 +9,6 @@
                         <table>
                             <tr>
                                 <th style="padding-top: 10px; padding-bottom: 10px;" class="text-left" scope="row">
-                                    Donatur
-                                </th>
-                                <td width="10%">
-                                    <center>:</center>
-                                </td>
-                                <td>
-                                    {{ $distribusi_bantuan->bantuan->donatur->NamaPerusahaan }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <th style="padding-top: 10px; padding-bottom: 10px;" class="text-left" scope="row">
                                     Tujuan Posko
                                 </th>
                                 <td width="10%">
@@ -46,31 +35,62 @@
                 <div class="col-lg-12 border-top mt-4 mb-3">
                     <h5 class="pt-4">Daftar Barang Bantuan</h5>
                     <div class="table-responsive">
-                        <table class="table table-bordered datatable">
+                        <table class="table table-bordered table-hover">
                             <thead>
                                 <tr>
                                     <th width="5%">No</th>
+                                    <th>Bantuan</th>
                                     <th>Nama Barang</th>
                                     <th>Jenis Barang</th>
+                                    <th width="15%">Harga Satuan</th>
+                                    <th width="10%">Jumlah Kebutuhan</th>
                                     <th width="10%">Jumlah</th>
+                                    <th width="15%">Total Harga</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($distribusi_bantuan->bantuan->bantuan_detail as $item)
+                                @php
+                                    $total = 0;
+                                @endphp
+                                @foreach ($distribusi_bantuan->distribusi_bantuan_items as $item)
+                                    @php
+                                        $total += intval($item->barang->HargaSatuan) * intval($item->Jumlah);
+                                    @endphp
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
+                                        <td>
+                                            <a href="{{ route('bantuan.show', $item->bantuan->IDBantuan) }}"
+                                                target="_blank">{{ $item->bantuan->donatur->NamaPerusahaan . ' - ' . date('d F Y', strtotime($item->bantuan->TanggalBantuan)) }}<i
+                                                    class="fa fa-external-link ms-2"></i></a>
+                                        </td>
                                         <td>
                                             {{ $item->barang->NamaBarang }}
                                         </td>
                                         <td>
                                             {{ $item->barang->jenis_barang->JenisBarang }}
                                         </td>
-                                        <td>
-                                            {{ $item->Jumlah }}
+                                        <td align="right">
+                                            {{ 'Rp.' . number_format($item->HargaSatuan, 0, ',', '.') }}
+                                        </td>
+                                        <td align="right">
+                                            {{ number_format($item->JumlahKebutuhan, 0, ',', '.') }}
+                                        </td>
+                                        <td align="right">
+                                            {{ number_format($item->Jumlah, 0, ',', '.') }}
+                                        </td>
+                                        <td align="right">
+                                            {{ 'Rp' . number_format(intval($item->HargaSatuan) * intval($item->Jumlah), 0, ',', '.') }}
                                         </td>
                                     </tr>
                                 @endforeach
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="7" align="right" class="fw-bold">Total Keseluruhan Harga</td>
+                                    <td align="right" class="fw-bold"><input type="hidden" id="totalHarga">Rp.<span
+                                            id="totalHargaTxt">{{ number_format($total, 0, ',', '.') }}</span></td>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>

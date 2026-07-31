@@ -33,7 +33,8 @@
                             <label for="IDKebutuhan" class="form-label">
                                 Kebutuhan<span class="ms-1 text-danger">*</span>
                             </label>
-                            <select class="w-100 select2" name="IDKebutuhan[]" id="IDKebutuhan" multiple="multiple" required>
+                            <select class="w-100 select2" name="IDKebutuhan[]" id="IDKebutuhan" multiple="multiple"
+                                required>
                                 @if (empty($data->kebutuhans))
                                     <option hidden value="">Data Tidak ada</option>
                                 @else
@@ -275,6 +276,8 @@
                     });
                 } else {
                     $('#productBody').empty();
+                    $('#totalHarga').val(0);
+                    $('#totalHargaTxt').text(currencyFormat(0));
                 }
             });
 
@@ -285,7 +288,30 @@
             $(document).on('click', '.btn-remove', function() {
                 $(this).closest('tr').remove();
                 calculateAll();
+                reorderRows()
             });
+
+            function reorderRows() {
+                $('#productBody tr').each(function(index) {
+                    const rowNum = index + 1;
+                    const arrayIndex = index;
+
+                    $(this).find('td:first').contents().filter(function() {
+                        return this.nodeType === 3;
+                    }).first().replaceWith(rowNum);
+
+                    $(this).find('[name]').each(function() {
+                        const name = $(this).attr('name');
+
+                        if (name) {
+                            $(this).attr(
+                                'name',
+                                name.replace(/^barang\[\d+\]/, `barang[${arrayIndex}]`)
+                            );
+                        }
+                    });
+                });
+            }
 
             function currencyFormat(value) {
                 return value.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
