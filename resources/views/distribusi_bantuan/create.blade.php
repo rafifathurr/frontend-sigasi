@@ -238,92 +238,105 @@
 
                                     item.bantuan_detail.forEach(function(record, indexRecord) {
 
-                                        totalPrice += parseInt(record.barang
-                                            .HargaSatuan) * parseInt(
-                                            record.Jumlah);
+                                        if (record.JumlahDistribusi == null ||
+                                            record.JumlahDistribusi != null &&
+                                            ((parseInt(record.Jumlah) > parseInt(record
+                                                .JumlahDistribusi)))) {
 
-                                        const $row = $('<tr>');
+                                            record.Jumlah = (record.JumlahDistribusi !=
+                                                null ? parseInt(
+                                                    record.Jumlah) - parseInt(record
+                                                    .JumlahDistribusi) : parseInt(record
+                                                    .Jumlah));
 
-                                        $row.append($(
-                                            '<td><input type="hidden" name="barang[' +
-                                            (rowNum - 1) +
-                                            '][IDBarang]" value="' +
-                                            record.barang.IDBarang +
-                                            '"><input type="hidden" name="barang[' +
-                                            (rowNum - 1) +
-                                            '][IDBantuan]" value="' +
-                                            item.IDBantuan + '">' +
-                                            rowNum + '</td>'));
+                                            totalPrice += parseInt(record.barang
+                                                .HargaSatuan) * parseInt(
+                                                record.Jumlah);
 
-                                        $row.append($('<td>').text(item.donatur.NamaPerusahaan +
-                                            ' - ' +
-                                            new Date(item.TanggalBantuan)
-                                            .toLocaleDateString('en-GB', {
-                                                day: '2-digit',
-                                                month: 'long',
-                                                year: 'numeric'
-                                            })));
+                                            const $row = $('<tr>');
 
-                                        $row.append($('<td>').text(record.barang
-                                            .NamaBarang));
+                                            $row.append($(
+                                                '<td><input type="hidden" name="barang[' +
+                                                (rowNum - 1) +
+                                                '][IDBarang]" value="' +
+                                                record.barang.IDBarang +
+                                                '"><input type="hidden" name="barang[' +
+                                                (rowNum - 1) +
+                                                '][IDBantuan]" value="' +
+                                                item.IDBantuan + '">' +
+                                                rowNum + '</td>'));
 
-                                        $row.append($('<td>').text(record.barang
-                                            .jenis_barang
-                                            .JenisBarang));
+                                            $row.append($('<td>').text(item.donatur
+                                                .NamaPerusahaan +
+                                                ' - ' +
+                                                new Date(item.TanggalBantuan)
+                                                .toLocaleDateString('en-GB', {
+                                                    day: '2-digit',
+                                                    month: 'long',
+                                                    year: 'numeric'
+                                                })));
 
-                                        $row.append($(
-                                            '<td align="right"><input type="hidden" name="barang[' +
-                                            (rowNum - 1) +
-                                            '][HargaSatuan]" value="' +
-                                            record.barang
-                                            .HargaSatuan + '">' +
-                                            'Rp.' + currencyFormat(record
-                                                .barang
-                                                .HargaSatuan) + '</td>'));
+                                            $row.append($('<td>').text(record.barang
+                                                .NamaBarang));
 
-                                        $row.append($(
-                                            '<td align="right"><input type="number" class="form-control text-end" name="barang[' +
-                                            (rowNum - 1) +
-                                            '][Jumlah]" value="' +
-                                            record.Jumlah +
-                                            '" min="0" style="min-wigth:100px;" oninput="adjustTotalItem(this, ' +
-                                            "'" + item.IDBantuan + '-' +
-                                            record.barang.IDBarang + "'" +
-                                            ', ' + record.barang
-                                            .HargaSatuan +
-                                            ')" required></td>'
-                                        ));
+                                            $row.append($('<td>').text(record.barang
+                                                .jenis_barang
+                                                .JenisBarang));
 
-                                        $row.append($(
-                                            '<td align="right"><input type="hidden" name="barang[' +
-                                            (rowNum - 1) +
-                                            '][Total]" value="' +
-                                            parseInt(record
-                                                .barang
-                                                .HargaSatuan) *
-                                            parseInt(
-                                                record.Jumlah) +
-                                            '" id="total-barang-' +
-                                            item.IDBantuan + '-' +
-                                            record.barang.IDBarang +
-                                            '">Rp.<span id="total-barang-' +
-                                            item.IDBantuan + '-' +
-                                            record.barang.IDBarang +
-                                            '-text">' +
-                                            currencyFormat(parseInt(record
+                                            $row.append($(
+                                                '<td align="right"><input type="hidden" name="barang[' +
+                                                (rowNum - 1) +
+                                                '][HargaSatuan]" value="' +
+                                                record.barang
+                                                .HargaSatuan + '">' +
+                                                'Rp.' + currencyFormat(record
+                                                    .barang
+                                                    .HargaSatuan) + '</td>'));
+
+                                            $row.append($(
+                                                '<td align="right"><input type="number" class="form-control text-end" name="barang[' +
+                                                (rowNum - 1) +
+                                                '][Jumlah]" value="' +
+                                                record.Jumlah +
+                                                '" min="0" style="min-wigth:100px;" oninput="adjustTotalItem(this, ' +
+                                                "'" + item.IDBantuan + '-' +
+                                                record.barang.IDBarang + "'" +
+                                                ', ' + record.barang
+                                                .HargaSatuan +
+                                                ')" required></td>'
+                                            ));
+
+                                            $row.append($(
+                                                '<td align="right"><input type="hidden" name="barang[' +
+                                                (rowNum - 1) +
+                                                '][Total]" value="' +
+                                                parseInt(record
                                                     .barang
                                                     .HargaSatuan) *
                                                 parseInt(
-                                                    record.Jumlah)) +
-                                            '</span></td>'));
+                                                    record.Jumlah) +
+                                                '" id="total-barang-' +
+                                                item.IDBantuan + '-' +
+                                                record.barang.IDBarang +
+                                                '">Rp.<span id="total-barang-' +
+                                                item.IDBantuan + '-' +
+                                                record.barang.IDBarang +
+                                                '-text">' +
+                                                currencyFormat(parseInt(record
+                                                        .barang
+                                                        .HargaSatuan) *
+                                                    parseInt(
+                                                        record.Jumlah)) +
+                                                '</span></td>'));
 
-                                        $row.append($(
-                                            '<td align="center"><button class="btn btn-danger btn-icon btn-remove"><i class="fa fa-trash"></i></button></td>'
-                                        ));
+                                            $row.append($(
+                                                '<td align="center"><button class="btn btn-danger btn-icon btn-remove"><i class="fa fa-trash"></i></button></td>'
+                                            ));
 
-                                        $('#productBody').append($row);
+                                            $('#productBody').append($row);
 
-                                        rowNum++;
+                                            rowNum++;
+                                        }
                                     });
 
                                     $('#totalHargaTxt').text(currencyFormat(totalPrice));
