@@ -28,6 +28,7 @@ class Controller extends BaseController
 
             if ($response->ok()) {
                 $data['menus'] = $response_body['data']['menus'];
+                session(['menus' => $data['menus']]);
             }
 
             if (!is_null($menu_code)) {
