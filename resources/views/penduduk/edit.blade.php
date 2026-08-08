@@ -3,8 +3,7 @@
     <div class="container-fluid px-0">
         <h4 class="fw-bold py-3"><span class="text-muted fw-light">Penduduk /</span> Edit Penduduk</h4>
         <div class="card shadow-sm border-0 w-100">
-
-            <form action="{{ route('penduduk.update', $penduduk->IDPenduduk) }}" method="POST">
+            <form action="{{ route('penduduk.update', $penduduk->IDPenduduk) }}" method="POST" id="form-submit">
                 @method('PUT')
                 @csrf
                 <div class="card-body">
