@@ -25,11 +25,11 @@
                             Jenis Barang<span class="ms-1 text-danger">*</span>
                         </label>
                         <select class="w-100 select2" name="jenis_barang" required>
-                            @if (empty($jenis_barangs))
+                            @if (empty($data->jenis_barang))
                                 <option hidden value="">Data Tidak ada</option>
                             @else
                                 <option hidden value="">-- Pilih Jenis Barang --</option>
-                                @foreach ($jenis_barangs as $item)
+                                @foreach ($data->jenis_barang as $item)
                                     <option value="{{ $item->IDJenisBarang }}">{{ $item->JenisBarang }}</option>
                                 @endforeach
                             @endif

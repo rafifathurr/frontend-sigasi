@@ -43,15 +43,11 @@ class BantuanController extends Controller
     public function create()
     {
         $title = 'Tambah Bantuan';
-        $response =  Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/donatur', []);
+        $response = Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/bantuan/create-edit', []);
         $response_body = json_decode($response->getBody());
-        $donaturs = $response_body->data->data;
+        $data = $response_body->data;
 
-        $response =  Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/barang', []);
-        $response_body = json_decode($response->getBody());
-        $barangs = $response_body->data->data;
-
-        return view('bantuan.create', compact('title', 'donaturs', 'barangs'));
+        return view('bantuan.create', compact('title', 'data'));
     }
 
     /**
@@ -87,19 +83,11 @@ class BantuanController extends Controller
     public function edit(string $id)
     {
         $title = 'Edit Bantuan';
-        $response =  Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/donatur', []);
+        $response = Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/bantuan/create-edit', ['id' => $id]);
         $response_body = json_decode($response->getBody());
-        $donaturs = $response_body->data->data;
+        $data = $response_body->data;
 
-        $response =  Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/barang', []);
-        $response_body = json_decode($response->getBody());
-        $barangs = $response_body->data->data;
-
-        $response =  Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/bantuan/show/' . $id, []);
-        $response_body = json_decode($response->getBody());
-        $bantuan = $response_body->data;
-
-        return view('bantuan.edit', compact('title', 'bantuan', 'barangs', 'donaturs'));
+        return view('bantuan.edit', compact('title', 'data'));
     }
 
     /**

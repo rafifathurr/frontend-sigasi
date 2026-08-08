@@ -3,22 +3,22 @@
     <div class="container-fluid px-0">
         <h4 class="fw-bold py-3"><span class="text-muted fw-light">Bantuan /</span> Edit Bantuan</h4>
         <div class="card shadow-sm border-0 w-100">
-            <form action="{{ route('bantuan.update', $bantuan->IDBantuan) }}" method="POST" id="form-submit">
+            <form action="{{ route('bantuan.update', $data->bantuan->IDBantuan) }}" method="POST" id="form-submit">
                 @method('PUT')
                 @csrf
                 <div class="card-body">
                     <div class="row">
                         <div class="mb-3 col-lg-4">
                             <label for="donatur" class="form-label">
-                                Donatur
+                                Donatur<span class="ms-1 text-danger">*</span>
                             </label>
                             <select class="form-select" name="donatur" required>
-                                @if (empty($donaturs))
+                                @if (empty($data->donatur))
                                     <option hidden value="">Data Tidak Ada</option>
                                 @else
                                     <option selected disabled value="">-- Pilih Donatur --</option>
-                                    @foreach ($donaturs as $item)
-                                        <option {{ $bantuan->IDDonatur == $item->IDDonatur ? 'selected' : '' }}
+                                    @foreach ($data->donatur as $item)
+                                        <option {{ $data->bantuan->IDDonatur == $item->IDDonatur ? 'selected' : '' }}
                                             value="{{ $item->IDDonatur }}">{{ $item->NamaPerusahaan }}</option>
                                     @endforeach
                                 @endif
@@ -26,24 +26,24 @@
                         </div>
                         <div class="mb-3 col-lg-4">
                             <label for="tanggal_bantuan" class="form-label">
-                                Tanggal Bantuan
+                                Tanggal Bantuan<span class="ms-1 text-danger">*</span>
                             </label>
                             <input type="date"
-                                value="{{ \Carbon\Carbon::parse($bantuan->TanggalBantuan)->format('Y-m-d') }}"
-                                name="tanggal_bantuan" class="form-control">
+                                value="{{ \Carbon\Carbon::parse($data->bantuan->TanggalBantuan)->format('Y-m-d') }}"
+                                name="tanggal_bantuan" class="form-control" required>
                         </div>
                         <div class="mb-3 col-lg-4">
                             <label for="jenis_barang" class="form-label">
-                                Barang
+                                Barang<span class="ms-1 text-danger">*</span>
                             </label>
                             <div class="d-flex flex-row gap-2">
                                 <select class="w-100 select2" id="barang" name="barang">
                                     <option selected disabled value="">Pilih Barang</option>
-                                    @if (empty($barangs))
+                                    @if (empty($data->barang))
                                         <option hidden value="">Data Tidak Ada</option>
                                     @else
                                         <option hidden value="">-- Pilih Barang --</option>
-                                        @foreach ($barangs as $item)
+                                        @foreach ($data->barang as $item)
                                             <option value="{{ $item->IDBarang }}">{{ $item->NamaBarang }}
                                             </option>
                                         @endforeach
@@ -65,7 +65,7 @@
                                     <th>Aksi</th>
                                 </thead>
                                 <tbody id="tableBody">
-                                    @foreach ($bantuan->bantuan_detail as $item)
+                                    @foreach ($data->bantuan->bantuan_detail as $item)
                                         <tr class="barang-{{ $item->IDBarang }}">
                                             <td>
                                                 {{ $item->barang->NamaBarang }}
@@ -73,7 +73,7 @@
                                             <td>
                                                 <input type="number" class="form-control"
                                                     name="barang[{{ $item->IDBarang }}][jumlah_barang]"
-                                                    value="{{ $item->Jumlah }}" min="1">
+                                                    value="{{ $item->Jumlah }}" min="1" required>
                                                 <input type="hidden" name="barang[{{ $item->IDBarang }}][id_barang]"
                                                     value="{{ $item->IDBarang }}">
                                             </td>
@@ -138,7 +138,7 @@
                                     class="form-control"
                                     name="barang[${barangId}][jumlah_barang]"
                                     value="1"
-                                    min="1">
+                                    min="1" required>
                                 <input type="hidden"
                                     name="barang[${barangId}][id_barang]"
                                     value="${barangId}">

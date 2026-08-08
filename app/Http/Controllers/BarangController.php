@@ -39,11 +39,11 @@ class BarangController extends Controller
     public function create()
     {
         $title = 'Tambah Barang';
-        $response = Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/jenis-barang', []);
+        $response = Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/barang/create-edit', []);
         $response_body = json_decode($response->getBody());
-        $jenis_barangs = $response_body->data->data;
+        $data = $response_body->data;
 
-        return view('barang.create', compact('title', 'jenis_barangs'));
+        return view('barang.create', compact('title', 'data'));
     }
 
     /**
@@ -79,15 +79,11 @@ class BarangController extends Controller
     public function edit(string $id)
     {
         $title = 'Edit Barang';
-        $response = Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/barang/show/' . $id, []);
+        $response = Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/barang/create-edit', ['id' => $id]);
         $response_body = json_decode($response->getBody());
-        $barang = $response_body->data;
+        $data = $response_body->data;
 
-        $response = Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/jenis-barang', []);
-        $response_body = json_decode($response->getBody());
-        $jenis_barangs = $response_body->data->data;
-
-        return view('barang.edit', compact('title', 'barang', 'jenis_barangs'));
+        return view('barang.edit', compact('title', 'data'));
     }
 
     /**

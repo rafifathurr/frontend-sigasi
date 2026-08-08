@@ -3,7 +3,7 @@
     <div class="container-fluid px-0">
         <h4 class="fw-bold py-3"><span class="text-muted fw-light">Jenis Barang /</span> Edit Barang</h4>
         <div class="card shadow-sm border-0 w-100">
-            <form action="{{ route('barang.update', $barang->IDBarang) }}" method="POST" id="form-submit">
+            <form action="{{ route('barang.update', $data->barang->IDBarang) }}" method="POST" id="form-submit">
                 @method('PUT')
                 @csrf
                 <div class="card-body">
@@ -12,14 +12,14 @@
                             <label for="nama_barang" class="form-label">
                                 Nama Barang<span class="ms-1 text-danger">*</span>
                             </label>
-                            <input value="{{ $barang->NamaBarang }}" type="text" class="form-control" name="nama_barang"
+                            <input value="{{ $data->barang->NamaBarang }}" type="text" class="form-control" name="nama_barang"
                                 required>
                         </div>
                         <div class="form-group mb-3 col-lg=6">
                             <label for="harga_satuan" class="form-label">
                                 Harga Satuan (Rp.)<span class="ms-1 text-danger">*</span>
                             </label>
-                            <input value="{{ $barang->HargaSatuan }}" type="number" class="form-control"
+                            <input value="{{ $data->barang->HargaSatuan }}" type="number" class="form-control"
                                 name="harga_satuan" min="0" required>
                         </div>
                     </div>
@@ -29,8 +29,8 @@
                         </label>
                         <select class="form-select" name="jenis_barang" required>
                             <option hidden value="">-- Pilih Jenis Barang --</option>
-                            @foreach ($jenis_barangs as $item)
-                                <option {{ $barang->IDJenisBarang == $item->IDJenisBarang ? 'selected' : '' }}
+                            @foreach ($data->jenis_barang as $item)
+                                <option {{ $data->barang->IDJenisBarang == $item->IDJenisBarang ? 'selected' : '' }}
                                     value="{{ $item->IDJenisBarang }}">{{ $item->JenisBarang }}</option>
                             @endforeach
                         </select>

@@ -158,8 +158,6 @@ class DistribusiBantuanController extends Controller
     {
         $response  = Http::withToken(session('jwt_token'))->put(env('API_URL') . 'api/distribusi-bantuan/update/' . $id, $request->all());
 
-        echo $response;die;
-
         if ($response->ok()) {
             return redirect()->route('distribusi-bantuan.index')->with('success', "Data berhasil diperbarui.");
         }

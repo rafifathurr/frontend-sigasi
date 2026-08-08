@@ -12,11 +12,11 @@
                                 Donatur<span class="ms-1 text-danger">*</span>
                             </label>
                             <select class="w-100 select2" name="donatur" required>
-                                @if (empty($donaturs))
+                                @if (empty($data->donatur))
                                     <option hidden value="">Data Tidak Ada</option>
                                 @else
                                     <option hidden value="">-- Pilih Donatur --</option>
-                                    @foreach ($donaturs as $item)
+                                    @foreach ($data->donatur as $item)
                                         <option value="{{ $item->IDDonatur }}">{{ $item->NamaPerusahaan }}
                                         </option>
                                     @endforeach
@@ -36,11 +36,11 @@
                             </label>
                             <div class="d-flex flex-row gap-2">
                                 <select class="w-100 select2" id="barang" name="barang">
-                                    @if (empty($barangs))
+                                    @if (empty($data->barang))
                                         <option hidden value="">Data Tidak Ada</option>
                                     @else
                                         <option hidden value="">-- Pilih Barang --</option>
-                                        @foreach ($barangs as $item)
+                                        @foreach ($data->barang as $item)
                                             <option value="{{ $item->IDBarang }}">{{ $item->NamaBarang }}
                                             </option>
                                         @endforeach
@@ -113,7 +113,7 @@
                                     class="form-control"
                                     name="barang[${barangId}][jumlah_barang]"
                                     value="1"
-                                    min="1">
+                                    min="1" required> 
                                 <input type="hidden"
                                     name="barang[${barangId}][id_barang]"
                                     value="${barangId}">
