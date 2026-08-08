@@ -28,7 +28,7 @@
                         <label for="idPenduduk" class="form-label">
                             Penduduk<span class="ms-1 text-danger">*</span>
                         </label>
-                        <select class="w-100 select2" name="idPenduduk" required>
+                        <select class="w-100 select2" name="idPenduduk" id="idPenduduk" required>
                             @if (empty($data->penduduk))
                                 <option hidden value="">Data Tidak ada</option>
                             @else
@@ -40,6 +40,44 @@
                                 @endforeach
                             @endif
                         </select>
+                    </div>
+                    <div id="detail-penduduk" class="d-none">
+                        <div class="form-group mb-3 col-lg-12">
+                            <label for="KTP" class="form-label">
+                                Nomor KTP<span class="ms-1 text-danger">*</span>
+                            </label>
+                            <input type="text" class="form-control" id="KTP" disabled>
+                        </div>
+                        <div class="form-group mb-3 col-lg-12">
+                            <label for="JenisKelaminTxt" class="form-label">
+                                Jenis Kelamin<span class="ms-1 text-danger">*</span>
+                            </label>
+                            <input type="text" class="form-control" id="JenisKelaminTxt" disabled>
+                        </div>
+                        <div class="form-group mb-3 col-lg-12">
+                            <label for="KelompokTxt" class="form-label">
+                                Kelompok<span class="ms-1 text-danger">*</span>
+                            </label>
+                            <input type="text" class="form-control" id="KelompokTxt" disabled>
+                        </div>
+                        <div class="form-group mb-3 col-lg-12">
+                            <label for="TanggalLahir" class="form-label">
+                                Tanggal Lahir<span class="ms-1 text-danger">*</span>
+                            </label>
+                            <input type="date" class="form-control" id="TanggalLahir" disabled>
+                        </div>
+                        <div class="form-group mb-3 col-lg-12">
+                            <label for="Desa" class="form-label">
+                                Desa<span class="ms-1 text-danger">*</span>
+                            </label>
+                            <input type="text" class="form-control" id="Desa" disabled>
+                        </div>
+                        <div class="form-group mb-3 col-lg-12">
+                            <label for="Alamat" class="form-label">
+                                Alamat<span class="ms-1 text-danger">*</span>
+                            </label>
+                            <textarea class="form-control" id="Alamat" rows="3" disabled></textarea>
+                        </div>
                     </div>
                     <div class="form-group mb-3 col-lg-12">
                         <label for="condition" class="form-label">
@@ -64,3 +102,41 @@
         </div>
     </div>
 @endsection
+@push('javascript')
+    <script>
+        $('#idPenduduk').on('change', function() {
+            const idPenduduk = $(this).val();
+            if (idPenduduk) {
+                $.ajax({
+                    url: "{{ url('penduduk') }}/" + idPenduduk,
+                    type: "GET",
+                    success: function(response) {
+
+                        $('#detail-penduduk').addClass('d-none');
+
+                        if (response) {
+                            
+                            $('#KTP').val(response.KTP);
+                            $('#JenisKelaminTxt').val(response.JenisKelaminTxt);
+                            $('#KelompokTxt').val(response.KelompokTxt);
+                            $('#TanggalLahir').val(response.TanggalLahir);
+                            $('#Desa').val(response.Desa);
+                            $('#Alamat').val(response.Alamat);
+
+                            $('#detail-penduduk').removeClass('d-none');
+                        } else {
+                            $('#detail-penduduk').addClass('d-none');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        errorAlert('Internal Server Error');
+                    }
+                });
+            } else {
+                $('#detail-penduduk').addClass('d-none');
+            }
+        });
+        
+        $('#idPenduduk').val({{ $data->pengungsi->IDPenduduk }}).trigger('change');
+    </script>
+@endpush

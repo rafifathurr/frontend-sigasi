@@ -58,7 +58,7 @@
                         data: 'KondisiKhusus'
                     },
                     {
-                        data: 'IDPosko',
+                        data: 'IDPengungsi',
                         orderable: false,
                         searchable: false,
                         className: 'dt-center',

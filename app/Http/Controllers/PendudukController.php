@@ -63,12 +63,16 @@ class PendudukController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id, Request $request)
     {
         $title = 'Detail Penduduk';
         $response =  Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/penduduk/show/' . $id, []);
         $response_body = json_decode($response->getBody());
         $penduduk = $response_body->data;
+
+        if($request->ajax()){
+            return response()->json($penduduk);
+        }
 
         return view('penduduk.view', compact('title', 'penduduk'));
     }
@@ -79,15 +83,11 @@ class PendudukController extends Controller
     public function edit(string $id)
     {
         $title = 'Edit Penduduk';
-        $response =  Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/penduduk/show/' . $id, []);
+        $response = Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/penduduk/create-edit', ['id' => $id]);
         $response_body = json_decode($response->getBody());
-        $penduduk = $response_body->data;
+        $data = $response_body->data;
 
-        $response =  Http::withToken(session('jwt_token'))->get(env('API_URL') . 'api/kelompok', []);
-        $response_body = json_decode($response->getBody());
-        $kelompoks = $response_body->data->data;
-
-        return view('penduduk.edit', compact('title', 'penduduk', 'kelompoks'));
+        return view('penduduk.edit', compact('title', 'data'));
     }
 
     /**

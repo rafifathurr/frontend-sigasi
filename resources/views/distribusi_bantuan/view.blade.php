@@ -59,9 +59,13 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>
-                                            <a href="{{ route('bantuan.show', $item->bantuan->IDBantuan) }}"
-                                                target="_blank">{{ $item->bantuan->donatur->NamaPerusahaan . ' - ' . date('d F Y', strtotime($item->bantuan->TanggalBantuan)) }}<i
-                                                    class="fa fa-external-link ms-2"></i></a>
+                                            @if (session('role') !== 'posko')
+                                                <a href="{{ route('bantuan.show', $item->bantuan->IDBantuan) }}"
+                                                    target="_blank">{{ $item->bantuan->donatur->NamaPerusahaan . ' - ' . date('d F Y', strtotime($item->bantuan->TanggalBantuan)) }}<i
+                                                        class="fa fa-external-link ms-2"></i></a>
+                                            @else
+                                                {{ $item->bantuan->donatur->NamaPerusahaan . ' - ' . date('d F Y', strtotime($item->bantuan->TanggalBantuan)) }}
+                                            @endif
                                         </td>
                                         <td>
                                             {{ $item->barang->NamaBarang }}

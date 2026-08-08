@@ -70,6 +70,12 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a class="dropdown-item"
+                                   href="${baseUrl}/${data}">
+                                    <i class="fa fa-eye me-2"></i>Detail
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item"
                                    href="${baseUrl}/${data}/edit">
                                     <i class="fa fa-edit me-2"></i>Edit
                                 </a>
