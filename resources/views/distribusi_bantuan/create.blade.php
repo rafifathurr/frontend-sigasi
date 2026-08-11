@@ -298,7 +298,8 @@
                                                 (rowNum - 1) +
                                                 '][Jumlah]" value="' +
                                                 record.Jumlah +
-                                                '" min="0" style="min-wigth:100px;" oninput="adjustTotalItem(this, ' +
+                                                '" min="0" max="' + record.Jumlah +
+                                                '" style="min-wigth:100px;" oninput="adjustTotalItem(this, ' +
                                                 "'" + item.IDBantuan + '-' +
                                                 record.barang.IDBarang + "'" +
                                                 ', ' + record.barang
@@ -419,8 +420,15 @@
             }
 
             function adjustTotalItem(e, key, price) {
-                const qty = e.value;
-                const totalPrice = parseInt(qty) * parseInt(price);
+                let qty = parseInt(e.value) || 0;
+                let max = parseInt(e.max) || 0;
+
+                if (qty > max) {
+                    qty = max;
+                    e.value = max;
+                }
+
+                const totalPrice = qty * parseInt(price);
 
                 $('#total-barang-' + key).val(totalPrice);
                 $('#total-barang-' + key + '-text').html(currencyFormat(totalPrice));

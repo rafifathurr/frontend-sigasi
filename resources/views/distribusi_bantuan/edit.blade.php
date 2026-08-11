@@ -118,6 +118,22 @@
                                         @endphp
                                         @foreach ($data->distribusi_bantuan->distribusi_bantuan_items as $item)
                                             @php
+                                                $bantuan_details = json_decode(
+                                                    json_encode($item->bantuan->bantuan_detail),
+                                                    true,
+                                                );
+
+                                                $bantuan_selected = array_filter($bantuan_details, function (
+                                                    $details,
+                                                ) use ($item) {
+                                                    return $details['IDBantuan'] == $item->IDBantuan &&
+                                                        $details['IDBarang'] == $item->barang->IDBarang;
+                                                });
+
+                                                $jumlah =
+                                                    $bantuan_selected[0]['Jumlah'] -
+                                                    ($bantuan_selected[0]['JumlahDistribusi'] - $item->Jumlah);
+
                                                 $total += intval($item->HargaSatuan) * intval($item->Jumlah);
                                             @endphp
                                             <tr>
@@ -149,7 +165,8 @@
                                                 <td align="right">
                                                     <input type="number" class="form-control text-end"
                                                         name="barang[{{ $loop->iteration - 1 }}][Jumlah]"
-                                                        value="{{ $item->Jumlah }}" min="0" style="min-wigth:50px;"
+                                                        value="{{ $item->Jumlah }}" min="0" max="{{ $jumlah }}"
+                                                        style="min-wigth:50px;"
                                                         oninput="adjustTotalItem(this, '{{ $item->IDBantuan . '-' . $item->IDBarang }}', {{ $item->HargaSatuan }})"
                                                         required>
                                                 </td>
@@ -354,7 +371,8 @@
                                                 (rowNum - 1) +
                                                 '][Jumlah]" value="' +
                                                 record.Jumlah +
-                                                '" min="0" style="min-wigth:100px;" oninput="adjustTotalItem(this, ' +
+                                                '" min="0" max="' + record.Jumlah +
+                                                '" style="min-wigth:100px;" oninput="adjustTotalItem(this, ' +
                                                 "'" + item.IDBantuan + '-' +
                                                 record.barang.IDBarang + "'" +
                                                 ', ' + record.barang
@@ -475,8 +493,15 @@
             }
 
             function adjustTotalItem(e, key, price) {
-                const qty = e.value;
-                const totalPrice = parseInt(qty) * parseInt(price);
+                let qty = parseInt(e.value) || 0;
+                let max = parseInt(e.max) || 0;
+
+                if (qty > max) {
+                    qty = max;
+                    e.value = max;
+                }
+
+                const totalPrice = qty * parseInt(price);
 
                 $('#total-barang-' + key).val(totalPrice);
                 $('#total-barang-' + key + '-text').html(currencyFormat(totalPrice));
