@@ -124,12 +124,12 @@
                                                     true,
                                                 );
 
-                                                $bantuan_selected = array_filter($bantuan_details, function (
-                                                    $details,
-                                                ) use ($item) {
-                                                    return $details['IDBantuan'] == $item->IDBantuan &&
-                                                        $details['IDBarang'] == $item->barang->IDBarang;
-                                                });
+                                                $bantuan_selected = array_values(
+                                                    array_filter($bantuan_details, function ($details) use ($item) {
+                                                        return $details['IDBantuan'] == $item->IDBantuan &&
+                                                            $details['IDBarang'] == $item->barang->IDBarang;
+                                                    }),
+                                                );
 
                                                 $jumlah =
                                                     $bantuan_selected[0]['Jumlah'] -
@@ -166,13 +166,14 @@
                                                 <td align="right">
                                                     <input type="number" class="form-control text-end"
                                                         name="barang[{{ $loop->iteration - 1 }}][Jumlah]"
-                                                        value="{{ $item->Jumlah }}" min="0" max="{{ $jumlah }}"
-                                                        style="min-wigth:50px;"
+                                                        value="{{ $item->Jumlah }}" min="0"
+                                                        max="{{ $jumlah }}" style="min-wigth:50px;"
                                                         oninput="adjustTotalItem(this, '{{ $item->IDBantuan . '-' . $item->IDBarang }}', {{ $item->HargaSatuan }})"
                                                         required>
                                                 </td>
                                                 <td align="right">
-                                                    <input type="hidden" name="barang[{{ $loop->iteration - 1 }}][Total]"
+                                                    <input type="hidden"
+                                                        name="barang[{{ $loop->iteration - 1 }}][Total]"
                                                         value="{{ intval($item->HargaSatuan) * intval($item->Jumlah) }}"
                                                         id="total-barang-{{ $item->IDBantuan . '-' . $item->IDBarang }}">
                                                     Rp.<span
@@ -245,7 +246,7 @@
                                         .barang
                                         .HargaSatuan) * item.JumlahKebutuhan;
 
-                                    $row.append($('<td>'+ (index + 1) + '</td>'));
+                                    $row.append($('<td>' + (index + 1) + '</td>'));
                                     $row.append($('<td>').text(item.barang.NamaBarang));
                                     $row.append($('<td>').text(item.barang.jenis_barang
                                         .JenisBarang));
