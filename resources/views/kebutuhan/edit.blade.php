@@ -19,7 +19,7 @@
                                 <option hidden value="">-- Pilih Posko --</option>
                                 @foreach ($data->poskos as $item)
                                     <option value="{{ $item->IDPosko }}"
-                                        {{ $data->is_posko && $data->posko->IDPosko == $item->IDPosko ? 'selected' : '' }}>
+                                        {{ $data->kebutuhan->IDPosko == $item->IDPosko ? 'selected' : '' }}>
                                         {{ $item->user->name }}</option>
                                 @endforeach
                             @endif
