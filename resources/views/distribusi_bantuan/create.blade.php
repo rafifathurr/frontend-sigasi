@@ -70,19 +70,20 @@
                                             <th>Jenis Barang</th>
                                             <th width="15%">Harga Satuan</th>
                                             <th width="10%">Jumlah</th>
+                                            <th width="10%">Jumlah Diterima</th>
                                             <th width="15%">Total Harga</th>
                                         </tr>
                                     </thead>
                                     <tbody id="kebutuhanBody">
                                         <tr>
-                                            <td colspan="6" align="center">
+                                            <td colspan="7" align="center">
                                                 Harap pilih posko terlebih dahulu.
                                             </td>
                                         </tr>
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <td colspan="5" align="right" class="fw-bold">Total Keseluruhan Harga</td>
+                                            <td colspan="6" align="right" class="fw-bold">Total Keseluruhan Harga</td>
                                             <td align="right" class="fw-bold">Rp.<span id="totalHargaKebutuhanTxt">0</span>
                                             </td>
                                         </tr>
@@ -163,21 +164,17 @@
                                 response.forEach(function(item, index) {
                                     const $row = $('<tr>');
 
-                                    let jumlah = (item
-                                        .JumlahDiterima != null ? parseInt(
-                                            item.JumlahDiterima) - parseInt(
-                                            item.JumlahKebutuhan) : parseInt(item
-                                            .JumlahKebutuhan));
+                                    // let jumlah = (item
+                                    //     .JumlahDiterima != null ? parseInt(
+                                    //         item.JumlahDiterima) - parseInt(
+                                    //         item.JumlahKebutuhan) : parseInt(item
+                                    //         .JumlahKebutuhan));
 
                                     totalPrice += parseInt(item
                                         .barang
-                                        .HargaSatuan) * jumlah;
+                                        .HargaSatuan) * item.JumlahKebutuhan;
 
-                                    $row.append($('<td><input type="hidden" name="kebutuhan[' +
-                                        item.barang.IDBarang +
-                                        '][JumlahKebutuhan]" value="' +
-                                        jumlah +
-                                        '">' + (index + 1) + '</td>'));
+                                    $row.append($('<td>'+ (index + 1) + '</td>'));
                                     $row.append($('<td>').text(item.barang.NamaBarang));
                                     $row.append($('<td>').text(item.barang.jenis_barang
                                         .JenisBarang));
@@ -186,7 +183,8 @@
                                         currencyFormat(item
                                             .barang
                                             .HargaSatuan) + '</td>'));
-                                    $row.append($('<td align="right">').text(jumlah));
+                                    $row.append($('<td align="right">').text(item.JumlahKebutuhan));
+                                    $row.append($('<td align="right">').text(item.JumlahDiterima));
                                     $row.append($(
                                         '<td align="right">Rp.' +
                                         currencyFormat(item
@@ -199,7 +197,7 @@
                             } else {
                                 const $row = $('<tr>');
                                 $row.append($(
-                                    '<td colspan="6" align="center">Tidak terdapat data kebutuhan pada posko.</td>'
+                                    '<td colspan="7" align="center">Tidak terdapat data kebutuhan pada posko.</td>'
                                 ));
                                 $('#kebutuhanBody').append($row);
                             }
